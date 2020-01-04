@@ -1,8 +1,11 @@
 package PSO_GA;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
@@ -52,7 +55,7 @@ public class PSO_Search {
 		}
 	}
 
-	public static ArrayList<Double> sub2indi(ArrayList<Double> p1, ArrayList<Double> p2) {
+	private ArrayList<Double> sub2indi(ArrayList<Double> p1, ArrayList<Double> p2) {
 		ArrayList<Double> tmp = new ArrayList<Double>();
 //		double phi1, phi2;
 		for (int i = 0; i < Config.MAX_LEN; i++) {
@@ -61,10 +64,8 @@ public class PSO_Search {
 		return tmp;
 	}
 
-	public static ArrayList<Double> addIndivsSub(ArrayList<Double> p, ArrayList<Double> sub) {
+	private ArrayList<Double> addIndivsSub(ArrayList<Double> p, ArrayList<Double> sub) {
 		ArrayList<Double> tmp = new ArrayList<Double>();
-		double phi, x, y;
-		Random r = new Random();
 		for (int i = 0; i < Config.MAX_LEN; i++) {
 			double sum = p.get(i) + sub.get(i);
 			if (sum >= Math.PI / 2 || sum <= (-1) * Math.PI / 2)
@@ -100,7 +101,7 @@ public class PSO_Search {
 //			}
 		}
 		// Code for intruder travel to target
-		int len = (int)Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
+		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
 		if (Config.YN < tmp_y)
 			sign = -1.0;
@@ -147,7 +148,7 @@ public class PSO_Search {
 		}
 		copy(pBest[res], gBest);
 		fitnessGBest = fitnessPBest[res];
-
+		System.out.println("Kết quả khởi tạo: " + fitnessGBest);
 	}
 
 	public void updatePBest() {
@@ -216,6 +217,7 @@ public class PSO_Search {
 		Random r = new Random();
 		for (int it = 0; it < Config.ITERATOR; it++) {
 //				PSO for MEP
+//			System.out.print("Van toc ca the thu i: " );
 			for (int i = 0; i < Config.numIndi; i++) {
 
 				ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
@@ -223,12 +225,15 @@ public class PSO_Search {
 				for (int j = 0; j < Config.MAX_LEN; j++) {
 					vel[i].set(j, Config.C * vel[i].get(j) + Config.C1 * r.nextDouble() * tmpVEL_p.get(j)
 							+ Config.C2 * r.nextDouble() * tmpVEL_g.get(j));
+//					System.out.print(vel[i].get(j) + " ");
 				}
+//				System.out.println();
 				pos[i] = addIndivsSub(pos[i], vel[i]);
 			}
 //			GA for MEP
 			updatePBest();
 			updateGBest();
+
 			for (int i = 0; i < Config.numIndi / 2; i++) {
 				ArrayList<Double> tmp = new ArrayList<Double>();
 				Crossover(tmp, pBest[i], pBest[i + Config.numIndi / 2]);
@@ -236,11 +241,11 @@ public class PSO_Search {
 				if (tmp_fitness < fitnessPBest[i]) {
 					copy(tmp, pBest[i]);
 					copy(tmp, pos[i]);
-//					System.out.println("Ok");
+//						System.out.println("Ok");
 				} else if (tmp_fitness < fitnessPBest[i + Config.numIndi / 2]) {
 					copy(tmp, pBest[i + Config.numIndi / 2]);
 					copy(tmp, pos[i + Config.numIndi / 2]);
-//					System.out.println("Ok");
+//						System.out.println("Ok");
 				}
 			}
 			updatePBest();
@@ -256,23 +261,39 @@ public class PSO_Search {
 			}
 			updatePBest();
 			updateGBest();
+			System.out.println("Fitness " + fitnessGBest);
+		}
 //			for (int i = 0; i < 20; i++)
 //				System.out.print(pos[0].get(i) + " ");
 //			System.out.println();
 
 //			double ans = calFitness([0]);
-			System.out.println("Fitness " + fitnessGBest);
-
-		}
 		System.out.println("Fitness " + fitnessGBest);
-
 	}
 
 	public static void main(String[] args) {
-		PSO_Search pso = new PSO_Search();
-		pso.readData("./Data/25/test16.txt");
-		pso.init();
-		pso.runPSO();
+//		FileOutputStream fos;
+//		PrintWriter pw;
+//		for (int i = 1; i <= 4; i++) {
+//			int n = 25 * i;
+			PSO_Search pso = new PSO_Search();
+			pso.readData("./Data/50/test12.txt");
+			pso.init();
+			pso.runPSO();
+//			try {
+//				fos = new FileOutputStream("./Result/PSO_GA/" + n + "/test" + 14 + ".txt", false);
+//				pw = new PrintWriter(fos);
+//				pw.print("Ket qua:= " + pso.fitnessGBest);
+//				pw.close();
+//				fos.close();
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
 
 	}
 }

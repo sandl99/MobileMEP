@@ -16,7 +16,7 @@ import Info.Config;
 import Info.Sensor;
 import PSO_GA.PSO_Search;
 
-public class SensorRunable extends PSO_Search {
+public class SensorRunableGA extends PSO_Search {
 	private static int i = 0;
 	private static boolean check = false;
 	public void paintSensor(ArrayList<Double> indi) {
@@ -82,10 +82,13 @@ public class SensorRunable extends PSO_Search {
 		}
 	}
 	public static void main(String args[]) {
-		SensorRunable sr = new SensorRunable();
-		sr.readData("./Data/75/test19.txt");
+		long start = System.currentTimeMillis();
+		SensorRunableGA sr = new SensorRunableGA();
+		sr.readData("./Data/50/test12.txt");
 		sr.init();
-		sr.runPSO();
+//		sr.runPSO();
+		long end = System.currentTimeMillis();
+		System.out.println("Thoi gian chay: " + (end - start) / 1000);
 		sr.paintSensor(sr.gBest);
 //		sr.paintSensor(sr.pBest[1]);
 	}
