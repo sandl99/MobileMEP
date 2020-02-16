@@ -3,10 +3,12 @@ package PSO_GA;
 //package tools;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 //import model.Config;
-import Info.*;
+import Info.Config;
+import Info.Point;
 
 /**
 * Contains static methods for initializing Individual.
@@ -94,7 +96,7 @@ public class Initializer {
 		double phi, dx, dy;
 
 		while (xDistance > Config.DS) {
-			double deltaProb = Math.sqrt(1.0 - (yDistance - Config.H) * (yDistance - Config.H) / (Config.H * Config.H));
+			double deltaProb = Math.sqrt(1.0 - (Math.abs(yDistance) - Config.H) * (Math.abs(yDistance) - Config.H) / (Config.H * Config.H));
 			if (yDistance < 0)
 				deltaProb = -deltaProb;
 			double goUpProb = (1 + deltaProb) / 2;
@@ -130,6 +132,10 @@ public class Initializer {
 		yCur += Math.sin(phi) * Config.DS;
 		startPoint.setX(xCur);
 		startPoint.setY(yCur);
+	}
+	public static void main(String[] args) {
+		List<Double> tmp = Initializer.initGenes();
+		
 	}
 
 }

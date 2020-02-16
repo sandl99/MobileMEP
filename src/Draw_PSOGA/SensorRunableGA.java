@@ -19,12 +19,13 @@ import PSO_GA.PSO_Search;
 public class SensorRunableGA extends PSO_Search {
 	private static int i = 0;
 	private static boolean check = false;
+	private double result = 0;
 	public void paintSensor(ArrayList<Double> indi) {
 		for (Sensor s : list) {
 			s.setDefault();
 		}
 		JFrame frame = null;
-		for (i = 0; i <= Config.MAX_LEN; i++) {
+		for (i = 0; i < Config.MAX_LEN; i++) {
 			if (frame == null) {
 				frame = new JFrame();
 				JPanel panel = new JPanel() {
@@ -37,6 +38,7 @@ public class SensorRunableGA extends PSO_Search {
 						for (Sensor s : list) {
 							x = s.getCenter().getX() * 10;
 							y = s.getCenter().getY() * 10;
+//							Nếu muốn kích thước là thật r = Config.R * 10;
 							r = Config.R * 10;
 							g2.fill(new Arc2D.Double(x - r, Config.H * 10 - y - r, 
 								r * 2, r * 2, 0, 360, Arc2D.OPEN));
@@ -57,6 +59,12 @@ public class SensorRunableGA extends PSO_Search {
 							xCur = xNext;
 							yCur = yNext;
 						}
+						for (Sensor s : list) {
+//							s.move(Config.DT * Config.VS);
+							result += s.MEx(xCur / 10, yCur / 10) * Config.DT;
+						}
+						g2.drawString(Double.toString(result) , 50, 50);
+						
 					}
 				};
 				frame.add(panel);
@@ -84,9 +92,9 @@ public class SensorRunableGA extends PSO_Search {
 	public static void main(String args[]) {
 		long start = System.currentTimeMillis();
 		SensorRunableGA sr = new SensorRunableGA();
-		sr.readData("./Data/50/test12.txt");
+		sr.readData("./Data/25/test14.txt");
 		sr.init();
-//		sr.runPSO();
+		sr.runPSO();
 		long end = System.currentTimeMillis();
 		System.out.println("Thoi gian chay: " + (end - start) / 1000);
 		sr.paintSensor(sr.gBest);

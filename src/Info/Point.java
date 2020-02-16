@@ -29,7 +29,5 @@ public class Point {
 	public static Point copy(Point in) {
 		return (new Point(in.getX(), in.getY()));
 	}
-	
-	
 
 }

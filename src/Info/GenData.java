@@ -11,7 +11,7 @@ public class GenData {
 
 	public GenData() {
 		for (int i = 0; i < n; i++) {
-			Sensor s = new Sensor((int)Config.W, (int)Config.H, Config.R);
+			Sensor s = new Sensor((int)Config.W, (int)Config.H, 4, Config.R);
 			sL.add(s);
 		}
 	}

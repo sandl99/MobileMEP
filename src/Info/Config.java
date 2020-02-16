@@ -30,6 +30,8 @@ public class Config {
 	public final static int ITERATOR = 100;
 	
 	public final static double r_init = 0.6;
+	public final static double LAMDA = 1.0;
+	public final static int ALPHA = 2;
 	
 //	Length of Individual
 	public final static int MAX_LEN = 1000;

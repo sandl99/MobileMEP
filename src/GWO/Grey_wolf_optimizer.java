@@ -64,6 +64,7 @@ public class Grey_wolf_optimizer {
 			e.printStackTrace();
 		}
 	}
+
 	public double calFitness(double[] indi) {
 		for (Sensor s : list) {
 			s.setDefault();
@@ -103,7 +104,7 @@ public class Grey_wolf_optimizer {
 
 		return result;
 	}
-	
+
 	public Grey_wolf_optimizer(double iLower[], double iUpper[], int imaxiter, int iN) {
 		maxiter = imaxiter;
 		Lower = iLower;
@@ -184,9 +185,8 @@ public class Grey_wolf_optimizer {
 			delta[i] = XX[2][i];
 		}
 		for (int i = 0; i < N; i++) {
-				System.out.println(calFitness(XX[i]));
+			System.out.println(calFitness(XX[i]));
 		}
-		
 
 	}
 
@@ -271,7 +271,7 @@ public class Grey_wolf_optimizer {
 			}
 
 			BESTVAL[iter] = calFitness(XX[0]);
-			System.out.println("GWO best " + iter +  " : "  + calFitness(alfa));
+			System.out.println("GWO best " + iter + " : " + calFitness(alfa));
 			iter++;
 		}
 
@@ -291,14 +291,16 @@ public class Grey_wolf_optimizer {
 			System.out.println("x[" + i + "] = " + in[1][i]);
 		}
 	}
+
 	public static void main(String[] args) {
 		double[] iLower = new double[Info.Config.MAX_LEN];
 		double[] iUpper = new double[Info.Config.MAX_LEN];
-		Arrays.fill(iLower, - Math.PI / 2);
+		Arrays.fill(iLower, -Math.PI / 2);
 		Arrays.fill(iUpper, Math.PI / 2);
 		Grey_wolf_optimizer gwo = new Grey_wolf_optimizer(iLower, iUpper, 50, 10);
-		gwo.readData("./Data/50/test12.txt");
+		gwo.readData("./Data/50/test14.txt");
 		gwo.init();
+//		gwo.solution();
 	}
 
 }

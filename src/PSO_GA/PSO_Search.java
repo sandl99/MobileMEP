@@ -82,7 +82,7 @@ public class PSO_Search {
 			s.setDefault();
 		}
 		double result = 0;
-//		Point tmp = new Point(Config.X0, Config.Y0);
+
 		double tmp_x = Config.X0, tmp_y = Config.Y0;
 		for (int i = 1; i <= Config.MAX_LEN; i++) {
 			tmp_x += Config.DT * Config.VI * Math.cos(indi.get(i - 1));
@@ -94,13 +94,10 @@ public class PSO_Search {
 			for (Sensor s : list) {
 				s.move(Config.DT * Config.VS);
 				result += s.MEx(tmp_x, tmp_y) * Config.DT;
-//				s.setDefault();
 			}
-//			for (int it = 0; it < s.; it) {
-//				s.get(it).move()
-//			}
 		}
 		// Code for intruder travel to target
+		/*
 		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
 		if (Config.YN < tmp_y)
@@ -113,7 +110,7 @@ public class PSO_Search {
 //				s.setDefault();
 			}
 		}
-
+		*/
 		return result;
 	}
 
@@ -197,17 +194,18 @@ public class PSO_Search {
 	public static void Mutation(ArrayList<Double> tar, ArrayList<Double> indi) {
 		tar.clear();
 		Random rd = new Random();
-		int pos_one = rd.nextInt(250);
-		int pos_two = rd.nextInt(750) + pos_one;
-		Stack<Double> tmp = new Stack<Double>();
-		for (int i = pos_one; i < pos_two; i++) {
-			tmp.push(indi.get(i));
-		}
+		int pos_one = rd.nextInt(Config.MAX_LEN);
+		int pos_two = rd.nextInt(Config.MAX_LEN - pos_one) + pos_one;
+//		Stack<Double> tmp = new Stack<Double>();
+//		for (int i = pos_one; i < pos_two; i++) {
+//			tmp.push(indi.get(i));
+//		}
 		for (int i = 0; i < pos_one; i++)
 			tar.add(indi.get(i));
 		for (int i = pos_one; i < pos_two; i++) {
-			tar.add(tmp.peek());
-			tmp.pop();
+//			tar.add(tmp.peek());
+			tar.add((-1) * indi.get(i));
+//			tmp.pop();
 		}
 		for (int i = pos_two; i < Config.MAX_LEN; i++)
 			tar.add(indi.get(i));
@@ -217,23 +215,26 @@ public class PSO_Search {
 		Random r = new Random();
 		for (int it = 0; it < Config.ITERATOR; it++) {
 //				PSO for MEP
-//			System.out.print("Van toc ca the thu i: " );
-			for (int i = 0; i < Config.numIndi; i++) {
 
-				ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
-				ArrayList<Double> tmpVEL_g = sub2indi(gBest, pos[i]);
-				for (int j = 0; j < Config.MAX_LEN; j++) {
-					vel[i].set(j, Config.C * vel[i].get(j) + Config.C1 * r.nextDouble() * tmpVEL_p.get(j)
-							+ Config.C2 * r.nextDouble() * tmpVEL_g.get(j));
-//					System.out.print(vel[i].get(j) + " ");
+			for (int iter = 0; iter < Config.ITERATOR / 50; iter++) {
+				for (int i = 0; i < Config.numIndi; i++) {
+
+					ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
+					ArrayList<Double> tmpVEL_g = sub2indi(gBest, pos[i]);
+					for (int j = 0; j < Config.MAX_LEN; j++) {
+						vel[i].set(j, Config.C * vel[i].get(j) + Config.C1 * r.nextDouble() * tmpVEL_p.get(j)
+								+ Config.C2 * r.nextDouble() * tmpVEL_g.get(j));
+//						System.out.print(vel[i].get(j) + " ");
+					}
+//					System.out.println();
+					pos[i] = addIndivsSub(pos[i], vel[i]);
 				}
-//				System.out.println();
-				pos[i] = addIndivsSub(pos[i], vel[i]);
 			}
-//			GA for MEP
+
 			updatePBest();
 			updateGBest();
-
+			
+//			GA for MEP
 			for (int i = 0; i < Config.numIndi / 2; i++) {
 				ArrayList<Double> tmp = new ArrayList<Double>();
 				Crossover(tmp, pBest[i], pBest[i + Config.numIndi / 2]);
@@ -277,7 +278,7 @@ public class PSO_Search {
 //		for (int i = 1; i <= 4; i++) {
 //			int n = 25 * i;
 			PSO_Search pso = new PSO_Search();
-			pso.readData("./Data/50/test12.txt");
+			pso.readData("./Data/25/test15.txt");
 			pso.init();
 			pso.runPSO();
 //			try {
