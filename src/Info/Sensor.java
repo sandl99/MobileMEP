@@ -144,10 +144,10 @@ public class Sensor {
 
 	public double MEx(double x, double y) {
 		double distance = Math.sqrt((center.getX() - x) * (center.getX() - x) + (center.getY() - y) * (center.getY() - y));
-		if (distance < this.radius)
-//			return Config.LAMDA / Math.pow(distance, Config.ALPHA);
-			return 1.0;
-		else
-			return 0;
+//		if (distance < this.radius)
+			return Config.LAMDA / Math.pow(distance, Config.ALPHA);
+//			return 1.0;
+//		else
+//			return 0;
 	}
 }

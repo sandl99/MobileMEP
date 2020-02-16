@@ -92,8 +92,8 @@ public class PSO_Search {
 			if (tmp_y > Config.H || tmp_y < 0)
 				return Double.MAX_VALUE;
 			for (Sensor s : list) {
-				s.move(Config.DT * Config.VS);
 				result += s.MEx(tmp_x, tmp_y) * Config.DT;
+				s.move(Config.DT * Config.VS);
 			}
 		}
 		// Code for intruder travel to target

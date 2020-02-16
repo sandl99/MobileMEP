@@ -41,14 +41,14 @@ public class MBGA {
 	 * Táº¡o tá»�a Ä‘á»™ cho vÃ¹ng
 	 */
 	public void Coordinate() {
-		xk = new double[(int)Config.W * 10];
+		xk = new double[(int) Config.W * 10];
 		double t = 0.0;
 		for (int i = 0; i < xk.length; i++) {
 			xk[i] = t;
 			t += 0.1;
 		}
 		t = 0.0;
-		yk = new double[(int)Config.H * 10];
+		yk = new double[(int) Config.H * 10];
 		for (int i = 0; i < yk.length; i++) {
 			yk[i] = t;
 			t += 0.1;
@@ -145,7 +145,8 @@ public class MBGA {
 			as[i] = hoanvi(dty);
 		}
 		return as;
-	}  
+	}
+
 	public double[][] AllSolution() {
 		Random r = new Random();
 		double[][] as = new double[Config.numIndi][];
@@ -228,11 +229,17 @@ public class MBGA {
 		for (Sensor s : list) {
 			s.setDefault();
 		}
-		
-		for (Sensor s : list) {
-			for (int i = 0; i < x.length; i++) {
-				s.move(Config.DT * Config.VI);
+
+		for (int i = 0; i < x.length; i++) {
+			for (Sensor s : list) {
+				if (x[i] > Config.W) {
+					return value;
+				}
+				if (y[i] > Config.H || y[i] < 0) {
+					return Double.MAX_VALUE;
+				}
 				value += s.MEx(x[i], y[i]) * Config.DT;
+				s.move(Config.DT * Config.VS);
 			}
 		}
 
@@ -471,15 +478,15 @@ public class MBGA {
 		// System.out.println(x[7]);
 		double max = -1000000;
 		for (Sensor s : list) {
-			s.move(begin * Config.DT * Config.VI);
+			s.move(begin * Config.DT * Config.VS);
 		}
 		for (int i = begin; i < end; i++) {
 			// System.out.println(i);
 			double v = 0;
 			for (Sensor s : list) {
-				s.move(Config.DT * Config.VI);
+				s.move(Config.DT * Config.VS);
 				v += s.MEx(x[i], input[i]);
-				
+
 //				System.out.println(s.MEx(x[i], input[i]));
 			}
 			// System.out.println(v);
@@ -498,12 +505,12 @@ public class MBGA {
 		input = vitri(input, Config.Y0);
 		double min = Double.MAX_VALUE;
 		for (Sensor s : list) {
-			s.move(begin * Config.DT * Config.VI);
+			s.move(begin * Config.DT * Config.VS);
 		}
 		for (int i = begin; i < end; i++) {
 			double value = 0.0;
 			for (Sensor s : list) {
-				s.move(Config.DT * Config.VI);
+				s.move(Config.DT * Config.VS);
 				value += s.MEx(x[i], input[i]) * Config.DT;
 //				s.setDefault();
 			}
@@ -606,7 +613,7 @@ public class MBGA {
 		double[] yt = vitri(ybest, Config.Y0);
 		double[] xt = vitri(xySolution(ybest), Config.X0);
 		double value = value(list, xt, yt);
-		
+
 		ArrayList<Double> tmp = new ArrayList<>();
 		for (int i = 0; i < ybest.length; i++) {
 			tmp.add(Math.asin(ybest[i] / Config.DS));
@@ -615,6 +622,7 @@ public class MBGA {
 		return value;
 
 	}
+
 	public void Paint(ArrayList<Double> tmp) {
 		SensorRunableGA drw = new SensorRunableGA();
 		drw.list = list;
