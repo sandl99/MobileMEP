@@ -678,9 +678,9 @@ public class MBGA {
 				double ketqua = 0.0;
 				double thoigian = 0.0;
 
-				FileOutputStream fos;
+		
 				try {
-					fos = new FileOutputStream("./Result/MBGA/Rect/" + mb.n + "/result_" + i + ".txt", false);
+					FileOutputStream fos = new FileOutputStream("./Result/MBGA/Rect/" + mb.n + "/result_" + i + ".txt", false);
 					PrintWriter pw = new PrintWriter(fos);
 					for (int j = 0; j < kq.length; j++) {
 						ketqua += kq[j];
@@ -695,9 +695,11 @@ public class MBGA {
 					pw.println("TIM: " + thoigian);
 
 					pw.close();
-//					fos.close();
+					fos.close();
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
