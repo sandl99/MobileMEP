@@ -646,6 +646,8 @@ public class MBGA {
 	// /*
 
 	public static void main(String[] args) {
+		FileOutputStream fos;
+		PrintWriter pw;
 		for (int nums = 1; nums <= 4; nums++) {
 //			n = nums * 25;
 			for (int i = 1; i <= 20; i++) {
@@ -665,23 +667,17 @@ public class MBGA {
 
 					long begin = Calendar.getInstance().getTimeInMillis();
 					kq[k] = mb.result(dty);
-					System.out.println(kq[k]);
-
 					long end = Calendar.getInstance().getTimeInMillis();
+					
+					System.out.println(kq[k]);
 					time[k] = (end - begin);
-					double[] y = mb.vitri(mb.ybest, Config.Y0);
-//					mb.inDataY(i, y);
-					dtx = mb.xySolution(mb.ybest);
-					double[] xt = mb.vitri(dtx, Config.X0);
-//					mb.inDataX(i, dtx);
 				}
 				double ketqua = 0.0;
 				double thoigian = 0.0;
 
-		
 				try {
-					FileOutputStream fos = new FileOutputStream("./Result/MBGA/Rect/" + mb.n + "/result_" + i + ".txt", false);
-					PrintWriter pw = new PrintWriter(fos);
+					fos = new FileOutputStream("./Result/MBGA/Rect/" + mb.n + "/result_" + i + ".txt", false);
+					pw = new PrintWriter(fos);
 					for (int j = 0; j < kq.length; j++) {
 						ketqua += kq[j];
 						thoigian += time[j];
