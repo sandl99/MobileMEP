@@ -9,30 +9,37 @@ public class Sensor {
 	private Point before;
 	
 	private int dir;
-	private double radius;
+//	private double radius;
 	
 	private double[] vec = new double[2];
 	private double alpCos;
 	
+	public Point getAfter() {
+		return after;
+	}
+
+
+	public void setAfter(Point after) {
+		this.after = after;
+	}
+
+
+	public Point getBefore() {
+		return before;
+	}
+
+
+	public void setBefore(Point before) {
+		this.before = before;
+	}
+
 	private int numPos;
 	public ArrayList<Point> pL = new ArrayList<Point>();
 
 	public Sensor() {
-		
-	}
-	public Sensor(int p1x, int p1y, int p2x, int p2y, int p3x, int p3y, int p4x, int p4y, double r) {
-		pL.add(new Point(p1x, p1y));
-		pL.add(new Point(p2x, p2y));
-		pL.add(new Point(p3x, p3y));
-		pL.add(new Point(p4x, p4y));
-		radius = r;
-		numPos = 4;
-		center = new Point(p1x, p1y);
-		this.before = new Point(pL.get(0).getX(), pL.get(0).getY());
-		this.after = new Point(pL.get(1).getX(), pL.get(1).getY());
-	
 		dir = 1;
 	}
+
 
 	public Sensor(int W, int H, int numPos, double R) {
 		Point p1 = new Point((int) (Math.random() * W), (int) (Math.random() * H));
@@ -45,6 +52,9 @@ public class Sensor {
 		pL.add(p4);
 		this.numPos = numPos;
 	}
+	public void setNumPos(int numPos) {
+		this.numPos = numPos;
+	}
 
 	public Point getCenter() {
 		return center;
@@ -53,7 +63,10 @@ public class Sensor {
 	public void setCenter(Point center) {
 		this.center = center;
 	}
-
+	
+	public void setPos(Point p) {
+		pL.add(p);
+	}
 	public static double d(Point p1, Point p2) {
 
 		double i = Math.abs(p1.getX() - p2.getX() + p1.getY() - p2.getY());

@@ -12,6 +12,7 @@ import java.util.Random;
 
 import Draw_PSOGA.SensorRunableGA;
 import Info.Config;
+import Info.Point;
 import Info.Sensor;
 import PSO_GA.Initializer;
 
@@ -58,29 +59,33 @@ public class MBGA {
 	/*
 	 * khá»Ÿi táº¡o cáº£m biáº¿n
 	 */
-	public void readData(String fileName) {
-		list = new ArrayList<>();
-		FileReader fr;
+	public void readData(String filename) {
+		String input;
+		this.list = new ArrayList<Sensor>();
 		try {
-			fr = new FileReader(fileName);
-			BufferedReader input = new BufferedReader(fr);
-			String sf = input.readLine();
-			String[] s1 = sf.split(" ");
-			n = Integer.parseInt(s1[0]);
-			r = Double.parseDouble(s1[1]);
+			FileReader fileReader = new FileReader(filename);
+			BufferedReader br = new BufferedReader(fileReader);
+			input = br.readLine();
+			String[] split = input.split(" ");
+			this.n = Integer.parseInt(split[0]);
 			for (int i = 0; i < n; i++) {
-				String temp = input.readLine();
-				String[] t = temp.split(" ");
-				Sensor Sen = new Sensor((int) Double.parseDouble(t[0]), (int) Double.parseDouble(t[1]),
-						(int) Double.parseDouble(t[2]), (int) Double.parseDouble(t[3]), (int) Double.parseDouble(t[4]),
-						(int) Double.parseDouble(t[5]), (int) Double.parseDouble(t[6]), (int) Double.parseDouble(t[7]),
-						r);
-				list.add(Sen);
+				input = br.readLine();
+				split = input.split(" ");
+				int numPos = Integer.parseInt(split[0]);
+				Sensor s = new Sensor();
+				s.setCenter(new Point(Double.parseDouble(split[1]), Double.parseDouble(split[2])));
+				int dem = 3;
+				for (int j = 0; j < numPos; j++) {
+					int t1 = dem++;
+					int t2 = dem++;
+					s.setPos(new Point(Double.parseDouble(split[t1]), Double.parseDouble(split[t2])));
+				}
+				s.setBefore(new Point(Double.parseDouble(split[3]), Double.parseDouble(split[4])));
+				s.setAfter(new Point(Double.parseDouble(split[5]), Double.parseDouble(split[6])));
+				s.setNumPos(numPos);
+				list.add(s);
 			}
-			input.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -575,7 +580,7 @@ public class MBGA {
 			double[] yt = vitri(se[0], Config.Y0);
 			double[] xt = vitri(xySolution(se[0]), Config.X0);
 			double testvalue = value(list, xt, yt);
-			System.out.println("\n @@@: " + i + "---" + testvalue);
+//			System.out.println("\n @@@: " + i + "---" + testvalue);
 		}
 		return y_best;
 		/*
@@ -608,7 +613,7 @@ public class MBGA {
 	 */
 
 	public double result(double[] dty) {
-		System.out.println("begin");
+//		System.out.println("begin");
 		ybest = searchGA(200, dty);
 		double[] yt = vitri(ybest, Config.Y0);
 		double[] xt = vitri(xySolution(ybest), Config.X0);
@@ -618,7 +623,7 @@ public class MBGA {
 		for (int i = 0; i < ybest.length; i++) {
 			tmp.add(Math.asin(ybest[i] / Config.DS));
 		}
-		Paint(tmp);
+//		Paint(tmp);
 		return value;
 
 	}
@@ -641,18 +646,19 @@ public class MBGA {
 	// /*
 
 	public static void main(String[] args) {
-		for (int nums = 1; nums <= 1; nums++) {
+		for (int nums = 1; nums <= 4; nums++) {
 //			n = nums * 25;
-			for (int i = 15; i <= 15; i++) {
+			for (int i = 1; i <= 20; i++) {
 				MBGA mb = new MBGA();
 				mb.n = nums * 25;
-				mb.readData("./Data/" + mb.n + "/test" + i + ".txt"); // sua
+				mb.readData("./Data/Rect/" + mb.n + "/test_" + i + ".txt"); // sua
 
-				double[] kq = new double[1];
+				double[] kq = new double[5];
 				double[] time = new double[kq.length];
 
 				for (int k = 0; k < kq.length; k++) {
 					System.out.println("n = " + mb.n + " i = " + i);
+					System.out.print("Epoch: " + k + ": ");
 					double[] dtx = mb.xSolution();
 					double[] dty0 = mb.xySolution(dtx);
 					double[] dty = mb.OptimizeY(dty0);
@@ -674,21 +680,19 @@ public class MBGA {
 
 				FileOutputStream fos;
 				try {
-					fos = new FileOutputStream("./Result/GA/" + mb.n + "/test" + i + ".txt", false);
+					fos = new FileOutputStream("./Result/MBGA/Rect/" + mb.n + "/result_" + i + ".txt", false);
 					PrintWriter pw = new PrintWriter(fos);
 					for (int j = 0; j < kq.length; j++) {
 						ketqua += kq[j];
 						thoigian += time[j];
-						pw.println("ket qua: " + kq[j]);
-						pw.println("thoi gian: " + time[j]);
-						pw.println("____________________________________");
+
 					}
 					ketqua = ketqua / kq.length;
 					thoigian = thoigian / kq.length;
 
-					pw.println("ket qua trung binh : " + ketqua);
-					pw.println("do lech chuan: " + mb.getStandar(kq, ketqua));
-					pw.println("thoi gian trung binh : " + thoigian);
+					pw.println("MEP: " + ketqua);
+					pw.println("DEV: " + mb.getStandar(kq, ketqua));
+					pw.println("TIM: " + thoigian);
 
 					pw.close();
 //					fos.close();

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.Stack;
 
@@ -39,15 +40,22 @@ public class PSO_Search {
 			input = br.readLine();
 			String[] split = input.split(" ");
 			this.n = Integer.parseInt(split[0]);
-			this.r = Double.parseDouble(split[1]);
 			for (int i = 0; i < n; i++) {
 				input = br.readLine();
 				split = input.split(" ");
-				list.add(new Sensor((int) Double.parseDouble(split[0]), (int) Double.parseDouble(split[1]),
-						(int) Double.parseDouble(split[2]), (int) Double.parseDouble(split[3]),
-						(int) Double.parseDouble(split[4]), (int) Double.parseDouble(split[5]),
-						(int) Double.parseDouble(split[6]), (int) Double.parseDouble(split[7]), r));
-
+				int numPos = Integer.parseInt(split[0]);
+				Sensor s = new Sensor();
+				s.setCenter(new Point(Double.parseDouble(split[1]), Double.parseDouble(split[2])));
+				int dem = 3;
+				for (int j = 0; j < numPos; j++) {
+					int t1 = dem++;
+					int t2 = dem++;
+					s.setPos(new Point(Double.parseDouble(split[t1]), Double.parseDouble(split[t2])));
+				}
+				s.setBefore(new Point(Double.parseDouble(split[3]), Double.parseDouble(split[4])));
+				s.setAfter(new Point(Double.parseDouble(split[5]), Double.parseDouble(split[6])));
+				s.setNumPos(numPos);
+				list.add(s);
 			}
 			br.close();
 		} catch (IOException e) {
@@ -145,7 +153,7 @@ public class PSO_Search {
 		}
 		copy(pBest[res], gBest);
 		fitnessGBest = fitnessPBest[res];
-		System.out.println("Kết quả khởi tạo: " + fitnessGBest);
+//		System.out.println("Kết quả khởi tạo: " + fitnessGBest);
 	}
 
 	public void updatePBest() {
@@ -262,7 +270,7 @@ public class PSO_Search {
 			}
 			updatePBest();
 			updateGBest();
-			System.out.println("Fitness " + fitnessGBest);
+//			System.out.println("Fitness " + fitnessGBest);
 		}
 //			for (int i = 0; i < 20; i++)
 //				System.out.print(pos[0].get(i) + " ");
@@ -272,29 +280,67 @@ public class PSO_Search {
 		System.out.println("Fitness " + fitnessGBest);
 	}
 
+	double getStandar(double[] rs, double kqAV) {
+		double total = 0;
+		for (int i = 0; i < rs.length; i++) {
+			total += Math.pow(rs[i] - kqAV, 2);
+		}
+		double temp = Math.sqrt(total / rs.length);
+		return temp;
+	}
+	
 	public static void main(String[] args) {
-//		FileOutputStream fos;
-//		PrintWriter pw;
-//		for (int i = 1; i <= 4; i++) {
-//			int n = 25 * i;
-			PSO_Search pso = new PSO_Search();
-			pso.readData("./Data/25/test15.txt");
-			pso.init();
-			pso.runPSO();
-//			try {
-//				fos = new FileOutputStream("./Result/PSO_GA/" + n + "/test" + 14 + ".txt", false);
-//				pw = new PrintWriter(fos);
-//				pw.print("Ket qua:= " + pso.fitnessGBest);
-//				pw.close();
-//				fos.close();
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
+		FileOutputStream fos;
+		PrintWriter pw;
+		for (int nums = 1; nums <= 4; nums++) {
+			int n = 25 * nums;
+			for (int i = 1; i <= 20; i++) {
+				
+				PSO_Search pso = new PSO_Search();
+				pso.readData("./Data/Rect/25/test_15.txt");
+				double[] kq = new double[5];
+				double[] time = new double[kq.length];
 
+				for (int k = 0; k < kq.length; k++) {
+					System.out.println("n = " + n + " i = " + i);
+					System.out.print("Epoch: " + k + ": ");
+					pso.init();
+					long begin = Calendar.getInstance().getTimeInMillis();
+					pso.runPSO();
+					long end = Calendar.getInstance().getTimeInMillis();
+					kq[k] = pso.fitnessGBest;
+					time[k] = end - begin;
+				}
+				double ketqua = 0.0;
+				double thoigian = 0.0;
+				try {
+					fos = new FileOutputStream("./Result/PSO_GA/Rect/" + n + "/result_" + i + ".txt", false);
+					pw = new PrintWriter(fos);
+					
+					for (int j = 0; j < kq.length; j++) {
+						ketqua += kq[j];
+						thoigian += time[j];
+
+					}
+					ketqua = ketqua / kq.length;
+					thoigian = thoigian / kq.length;
+
+					pw.println("MEP: " + ketqua);
+					pw.println("DEV: " + pso.getStandar(kq, ketqua));
+					pw.println("TIM: " + thoigian);
+
+					pw.close();
+					
+					pw.close();
+					fos.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	//
+			}
+		}
 	}
 }

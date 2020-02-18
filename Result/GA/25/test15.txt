@@ -1,6 +1,0 @@
-ket qua: 3.26920830369363
-thoi gian: 34606.0
-____________________________________
-ket qua trung binh : 3.26920830369363
-do lech chuan: 0.0
-thoi gian trung binh : 34606.0
