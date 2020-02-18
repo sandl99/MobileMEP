@@ -297,7 +297,7 @@ public class PSO_Search {
 			for (int i = 1; i <= 20; i++) {
 				
 				PSO_Search pso = new PSO_Search();
-				pso.readData("./Data/Rect/25/test_15.txt");
+				pso.readData("./Data/Rect/" + n + "/test_" + i + ".txt");
 				double[] kq = new double[5];
 				double[] time = new double[kq.length];
 

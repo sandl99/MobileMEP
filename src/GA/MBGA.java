@@ -648,7 +648,7 @@ public class MBGA {
 	public static void main(String[] args) {
 		for (int nums = 1; nums <= 4; nums++) {
 //			n = nums * 25;
-			for (int i = 1; i <= 20; i++) {
+			for (int i = 4; i <= 20; i++) {
 				MBGA mb = new MBGA();
 				mb.n = nums * 25;
 				mb.readData("./Data/Rect/" + mb.n + "/test_" + i + ".txt"); // sua
