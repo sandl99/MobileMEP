@@ -580,7 +580,7 @@ public class MBGA {
 			double[] yt = vitri(se[0], Config.Y0);
 			double[] xt = vitri(xySolution(se[0]), Config.X0);
 			double testvalue = value(list, xt, yt);
-//			System.out.println("\n @@@: " + i + "---" + testvalue);
+			System.out.println("\n @@@: " + i + "---" + testvalue);
 		}
 		return y_best;
 		/*
