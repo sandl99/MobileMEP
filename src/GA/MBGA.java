@@ -626,7 +626,7 @@ public class MBGA {
 		for (int i = 0; i < ybest.length; i++) {
 			tmp.add(Math.asin(ybest[i] / Config.DS));
 		}
-//		Paint(tmp);
+		Paint(tmp);
 		return value;
 
 	}
@@ -651,7 +651,7 @@ public class MBGA {
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		for (int nums = 1; nums <= 4; nums++) {
+		for (int nums = 4; nums <= 4; nums++) {
 //			n = nums * 25;
 			for (int i = 1; i <= 20; i++) {
 				MBGA mb = new MBGA();
@@ -674,6 +674,7 @@ public class MBGA {
 					
 					System.out.println(kq[k]);
 					time[k] = (end - begin);
+					
 				}
 				double ketqua = 0.0;
 				double thoigian = 0.0;

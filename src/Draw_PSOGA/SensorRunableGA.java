@@ -92,9 +92,9 @@ public class SensorRunableGA extends PSO_Search {
 	public static void main(String args[]) {
 		long start = System.currentTimeMillis();
 		SensorRunableGA sr = new SensorRunableGA();
-		sr.readData("./Data/Rect/75/test_17.txt");
+		sr.readData("./Data/RanPoint/100/test_1.txt");
 		sr.init();
-		sr.runPSO();
+//		sr.runPSO();
 		long end = System.currentTimeMillis();
 		System.out.println("Thoi gian chay: " + (end - start) / 1000);
 		sr.paintSensor(sr.gBest);
