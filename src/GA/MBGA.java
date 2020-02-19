@@ -677,9 +677,9 @@ public class MBGA {
 				}
 				double ketqua = 0.0;
 				double thoigian = 0.0;
-
+				
 				try {
-					fos = new FileOutputStream("./Result/MBGA/PathWay/" + mb.n + "/result_" + i + ".txt", false);
+					fos = new FileOutputStream("./Result/MBGA/PathWay/" + nums * 25 + "/result_" + i + ".txt", false);
 					pw = new PrintWriter(fos);
 					for (int j = 0; j < kq.length; j++) {
 						ketqua += kq[j];
