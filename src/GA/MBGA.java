@@ -391,12 +391,12 @@ public class MBGA {
 					c2[j] = input[x2][j];
 				}
 				ArrayList<Integer> iList = cross(c1, c2);
-				if (iList.size() > 1) {
+				if (iList.size() >= 1) {
 					is = true;
-					k = rand.nextInt(iList.size() - 1) + 1;
+					k = rand.nextInt(iList.size());
 					k = iList.get(k);
 				}
-			} while (is = false);
+			} while (is == false);
 
 			// System.out.println("k: "+k);
 			double[] c3 = new double[input[0].length];
