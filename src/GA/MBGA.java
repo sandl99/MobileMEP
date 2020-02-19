@@ -656,7 +656,7 @@ public class MBGA {
 			for (int i = 1; i <= 20; i++) {
 				MBGA mb = new MBGA();
 				mb.n = nums * 25;
-				mb.readData("./Data/Rect/" + mb.n + "/test_" + i + ".txt"); // sua
+				mb.readData("./Data/PathWay/" + mb.n + "/test_" + i + ".txt"); // sua
 
 				double[] kq = new double[5];
 				double[] time = new double[kq.length];
@@ -679,7 +679,7 @@ public class MBGA {
 				double thoigian = 0.0;
 
 				try {
-					fos = new FileOutputStream("./Result/MBGA/Rect/" + mb.n + "/result_" + i + ".txt", false);
+					fos = new FileOutputStream("./Result/MBGA/PathWay/" + mb.n + "/result_" + i + ".txt", false);
 					pw = new PrintWriter(fos);
 					for (int j = 0; j < kq.length; j++) {
 						ketqua += kq[j];
