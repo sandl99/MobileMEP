@@ -377,6 +377,7 @@ public class MBGA {
 		int k = 0;
 		for (int i = 0; i < nbC / 2; i++) {
 			boolean is;
+			int dem = 0;
 			do {
 				is = false;
 				int x1 = rand.nextInt(Config.numIndi);
@@ -396,7 +397,8 @@ public class MBGA {
 					k = rand.nextInt(iList.size());
 					k = iList.get(k);
 				}
-			} while (is == false);
+				dem += 1;
+			} while (is == false && dem <= 1000);
 
 			// System.out.println("k: "+k);
 			double[] c3 = new double[input[0].length];
@@ -445,7 +447,7 @@ public class MBGA {
 		double[] output = new double[input.length];
 
 		int dis = 50;
-
+		int dem = 0;
 		do {
 			int x, x1, x2;
 			x = findMax(input, 0, input.length);
@@ -471,7 +473,8 @@ public class MBGA {
 			for (int i = x2; i < input.length; i++) {
 				output[i] = input[i];
 			}
-		} while (Check(output) == false);
+			dem += 1;
+		} while (Check(output) == false && dem < 1000);
 		return output;
 	}
 
