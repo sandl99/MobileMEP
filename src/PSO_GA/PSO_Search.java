@@ -297,7 +297,7 @@ public class PSO_Search {
 			for (int i = 1; i <= 20; i++) {
 				
 				PSO_Search pso = new PSO_Search();
-				pso.readData("./Data/Rect/" + n + "/test_" + i + ".txt");
+				pso.readData("./Data/RanPoint/" + n + "/test_" + i + ".txt");
 				double[] kq = new double[5];
 				double[] time = new double[kq.length];
 
@@ -314,7 +314,7 @@ public class PSO_Search {
 				double ketqua = 0.0;
 				double thoigian = 0.0;
 				try {
-					fos = new FileOutputStream("./Result/PSO_GA/Rect/" + n + "/result_" + i + ".txt", false);
+					fos = new FileOutputStream("./Result/PSO_GA/RanPoint/" + n + "/result_" + i + ".txt", false);
 					pw = new PrintWriter(fos);
 					
 					for (int j = 0; j < kq.length; j++) {
