@@ -560,7 +560,7 @@ public class MBGA {
 
 	private double[] searchGA(int iter, double[] dty) {
 
-		double[][] init = AllSolution();
+		double[][] init = AllSolution(dty);
 		double[] y_best = new double[init[0].length];
 		for (int i = 0; i < init[0].length; i++) {
 			y_best[i] = init[0][i];
@@ -569,6 +569,7 @@ public class MBGA {
 		double epsilon = 0.001;
 		int count = 0;
 		double kqtruoc = 0.0;
+		
 		for (int i = 0; i < iter; i++) {
 			// System.out.println("\n################## " + i );
 			double[][] cr = Crossover(init, 20);
@@ -583,7 +584,7 @@ public class MBGA {
 			double[] yt = vitri(se[0], Config.Y0);
 			double[] xt = vitri(xySolution(se[0]), Config.X0);
 			double testvalue = value(list, xt, yt);
-//			System.out.println("\n @@@: " + i + "---" + testvalue);
+			System.out.println("\n @@@: " + i + "---" + testvalue);
 		}
 		return y_best;
 		/*
@@ -618,6 +619,7 @@ public class MBGA {
 	public double result(double[] dty) {
 //		System.out.println("begin");
 		ybest = searchGA(200, dty);
+//		ybest = dty;
 		double[] yt = vitri(ybest, Config.Y0);
 		double[] xt = vitri(xySolution(ybest), Config.X0);
 		double value = value(list, xt, yt);
@@ -646,14 +648,13 @@ public class MBGA {
 		return temp;
 	}
 
-	// /*
-
+	
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
 		for (int nums = 4; nums <= 4; nums++) {
 //			n = nums * 25;
-			for (int i = 1; i <= 20; i++) {
+			for (int i = 19; i <= 20; i++) {
 				MBGA mb = new MBGA();
 				mb.n = nums * 25;
 				mb.readData("./Data/RanPoint/" + mb.n + "/test_" + i + ".txt"); // sua

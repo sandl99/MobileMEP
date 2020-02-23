@@ -105,7 +105,7 @@ public class PSO_Search {
 			}
 		}
 		// Code for intruder travel to target
-		/*
+		
 		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
 		if (Config.YN < tmp_y)
@@ -118,7 +118,7 @@ public class PSO_Search {
 //				s.setDefault();
 			}
 		}
-		*/
+		
 		return result;
 	}
 
@@ -199,23 +199,32 @@ public class PSO_Search {
 		}
 	}
 
-	public static void Mutation(ArrayList<Double> tar, ArrayList<Double> indi) {
+	public static void Mutation_Inverse(ArrayList<Double> tar, ArrayList<Double> indi) {
 		tar.clear();
 		Random rd = new Random();
 		int pos_one = rd.nextInt(Config.MAX_LEN);
 		int pos_two = rd.nextInt(Config.MAX_LEN - pos_one) + pos_one;
-//		Stack<Double> tmp = new Stack<Double>();
-//		for (int i = pos_one; i < pos_two; i++) {
-//			tmp.push(indi.get(i));
-//		}
+
 		for (int i = 0; i < pos_one; i++)
 			tar.add(indi.get(i));
 		for (int i = pos_one; i < pos_two; i++) {
-//			tar.add(tmp.peek());
 			tar.add((-1) * indi.get(i));
-//			tmp.pop();
 		}
 		for (int i = pos_two; i < Config.MAX_LEN; i++)
+			tar.add(indi.get(i));
+	}
+	public static void Mutation_Symetric(ArrayList<Double> tar, ArrayList<Double> indi) {
+		tar.clear();
+		Random rd = new Random();
+		int len = rd.nextInt(Config.MAX_LEN / 10 - 10) + 10;
+		int pos = rd.nextInt(Config.MAX_LEN - len);
+
+		for (int i = 0; i < pos; i++)
+			tar.add(indi.get(i));
+		for (int i = pos + len - 1; i >= pos; i--) {
+			tar.add(indi.get(i));
+		}
+		for (int i = pos + len; i < Config.MAX_LEN; i++)
 			tar.add(indi.get(i));
 	}
 
@@ -224,7 +233,7 @@ public class PSO_Search {
 		for (int it = 0; it < Config.ITERATOR; it++) {
 //				PSO for MEP
 
-			for (int iter = 0; iter < Config.ITERATOR / 50; iter++) {
+			for (int iter = 0; iter < Config.ITERATOR / 10; iter++) {
 				for (int i = 0; i < Config.numIndi; i++) {
 
 					ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
@@ -242,26 +251,39 @@ public class PSO_Search {
 			updatePBest();
 			updateGBest();
 			
-//			GA for MEP
-			for (int i = 0; i < Config.numIndi / 2; i++) {
-				ArrayList<Double> tmp = new ArrayList<Double>();
-				Crossover(tmp, pBest[i], pBest[i + Config.numIndi / 2]);
-				double tmp_fitness = calFitness(tmp);
-				if (tmp_fitness < fitnessPBest[i]) {
-					copy(tmp, pBest[i]);
-					copy(tmp, pos[i]);
-//						System.out.println("Ok");
-				} else if (tmp_fitness < fitnessPBest[i + Config.numIndi / 2]) {
-					copy(tmp, pBest[i + Config.numIndi / 2]);
-					copy(tmp, pos[i + Config.numIndi / 2]);
-//						System.out.println("Ok");
+			/*
+			 * CrossOver
+			 * Prob : 0,5
+			 */
+			if (r.nextDouble() < 1) {
+				for (int i = 0; i < Config.numIndi / 2; i++) {
+					ArrayList<Double> tmp = new ArrayList<Double>();
+					Crossover(tmp, pBest[i], pBest[i + Config.numIndi / 2]);
+					double tmp_fitness = calFitness(tmp);
+					if (tmp_fitness < fitnessPBest[i]) {
+						copy(tmp, pBest[i]);
+						copy(tmp, pos[i]);
+					} else if (tmp_fitness < fitnessPBest[i + Config.numIndi / 2]) {
+						copy(tmp, pBest[i + Config.numIndi / 2]);
+						copy(tmp, pos[i + Config.numIndi / 2]);
+					}
 				}
+				updatePBest();
+				updateGBest();
 			}
-			updatePBest();
-			updateGBest();
+			
+			/*
+			 * Mutation : Inverse vs Symetric
+			 */
+		
 			for (int i = 0; i < Config.numIndi; i++) {
 				ArrayList<Double> tmp = new ArrayList<Double>();
-				Mutation(tmp, pBest[i]);
+				if (r.nextDouble() < 0.3) {
+					Mutation_Inverse(tmp, pBest[i]);
+				} else {
+					Mutation_Symetric(tmp, pBest[i]);
+				}
+				
 				if (calFitness(tmp) < fitnessPBest[i]) {
 					copy(tmp, pBest[i]);
 					copy(tmp, pos[i]);
@@ -270,14 +292,8 @@ public class PSO_Search {
 			}
 			updatePBest();
 			updateGBest();
-//			System.out.println("Fitness " + fitnessGBest);
-		}
-//			for (int i = 0; i < 20; i++)
-//				System.out.print(pos[0].get(i) + " ");
-//			System.out.println();
-
-//			double ans = calFitness([0]);
-		System.out.println("Fitness " + fitnessGBest);
+			System.out.println("Fitness " + it + " th : "  + fitnessGBest);
+		}	
 	}
 
 	double getStandar(double[] rs, double kqAV) {
@@ -292,7 +308,7 @@ public class PSO_Search {
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		for (int nums = 1; nums <= 4; nums++) {
+		for (int nums = 2; nums <= 4; nums++) {
 			int n = 25 * nums;
 			for (int i = 1; i <= 20; i++) {
 				

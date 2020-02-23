@@ -39,7 +39,7 @@ public class SensorRunableGA extends PSO_Search {
 							x = s.getCenter().getX() * 10;
 							y = s.getCenter().getY() * 10;
 //							Nếu muốn kích thước là thật r = Config.R * 10;
-							r = Config.R * 10;
+							r = Config.R * 3;
 							g2.fill(new Arc2D.Double(x - r, Config.H * 10 - y - r, 
 								r * 2, r * 2, 0, 360, Arc2D.OPEN));
 						}
@@ -92,7 +92,7 @@ public class SensorRunableGA extends PSO_Search {
 	public static void main(String args[]) {
 		long start = System.currentTimeMillis();
 		SensorRunableGA sr = new SensorRunableGA();
-		sr.readData("./Data/RanPoint/100/test_1.txt");
+		sr.readData("./Data/RanPoint/25/test_1.txt");
 		sr.init();
 //		sr.runPSO();
 		long end = System.currentTimeMillis();
