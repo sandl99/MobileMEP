@@ -52,6 +52,7 @@ public class CrossOverGene {
 
 		if (nGene * Config.DS <= calDis(this.src, this.des)) {
 			res = false;
+//			System.out.println("sai roi");
 		}
 
 		return res;
@@ -86,7 +87,7 @@ public class CrossOverGene {
 			dyArr[i - 1] = dy;
 		}
 		int index = 0;
-		while (Math.abs(deltaY - sumY) >= Config.DS) {
+		while (Math.abs(deltaY - sumY) >= Config.DS && index <= this.nGene - 1) {
 			sumY -= 2 * dyArr[index];
 			dyArr[index] *= -1;
 			index += 1;
@@ -122,7 +123,7 @@ public class CrossOverGene {
 
 	public List<Double> subGene() {
 		List<Double> res = new ArrayList<Double>();
-		if (!checkGeneMakeable()) {
+		if (!PSO_Search.checkGeneMakeAble(src, des, nGene)) {
 			System.out.println("Can't make subgene");
 			return res;
 		}

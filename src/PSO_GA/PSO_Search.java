@@ -30,7 +30,9 @@ public class PSO_Search {
 	ArrayList<ArrayList<Point>> tmp = new ArrayList<>();
 
 	public static double calDistance(Point p1, Point p2) {
-		return Math.sqrt(Math.pow(p1.getX() - p2.getX(), 2) + Math.pow(p1.getY() - p2.getY(), 2));
+		double i = (p1.getX() - p2.getX()) * (p1.getX() - p2.getX())
+				+ (p1.getY() - p2.getY()) * (p1.getY() - p2.getY());
+		return Math.sqrt(i);
 	}
 
 	public void readData(String filename) {
@@ -107,7 +109,7 @@ public class PSO_Search {
 			}
 		}
 		// Code for intruder travel to target
-
+		/*
 		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
 		if (Config.YN < tmp_y)
@@ -120,7 +122,7 @@ public class PSO_Search {
 //				s.setDefault();
 			}
 		}
-
+	*/
 		return result;
 	}
 
@@ -188,32 +190,90 @@ public class PSO_Search {
 		}
 	}
 
+	public static boolean checkGeneMakeAble(Point src, Point des, int len) {
+		boolean res = true;
+
+		if (des.getX() < src.getX()) {
+			res = false;
+		}
+
+		if (len * Config.DS <= calDistance(src, des)) {
+			res = false;
+		}
+
+		return res;
+	}
+	private static List<Integer> findListPiv(ArrayList<Double> indi_1, ArrayList<Double> indi_2, int len) {
+		List<Integer> res = new ArrayList<>();
+		double x1 = Config.X0;
+		double y1 = Config.Y0;
+		double x2 = Config.X0;
+		double y2 = Config.Y0;
+		
+		int piv_1 = 100;
+		/*
+		 * Set up
+		 */
+		for (int i = 0; i < piv_1; i++) {
+			x1 += Config.DS * Math.cos(indi_1.get(i));
+			y1 += Config.DS * Math.sin(indi_1.get(i));
+		}
+		for (int i = 0; i < piv_1 + len; i++) {
+			x2 += Config.DS * Math.cos(indi_2.get(i));
+			y2 += Config.DS * Math.sin(indi_2.get(i));
+		}
+		/*
+		 * Starting ...
+		 */
+		for (int i = piv_1; i < 800; i++) {
+			x1 += Config.DS * Math.cos(indi_1.get(i));
+			y1 += Config.DS * Math.sin(indi_1.get(i));
+			
+			x2 += Config.DS * Math.cos(indi_2.get(i + len));
+			y2 += Config.DS * Math.sin(indi_2.get(i + len));
+			
+			if (checkGeneMakeAble(new Point(x1, y1), new Point(x2, y2), len)) {
+				res.add(i);
+			}		
+		}
+	
+		return res;
+	}
+
 	private static Point findPoint(ArrayList<Double> indi, int len) {
 		double x = Config.X0;
 		double y = Config.Y0;
 
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i <= len; i++) {
 			x += Config.DS * Math.cos(indi.get(i));
 			y += Config.DS * Math.sin(indi.get(i));
 		}
 		return new Point(x, y);
 	}
-
+	
 	public static void Crossover(ArrayList<Double> tar, ArrayList<Double> indi_1, ArrayList<Double> indi_2) {
 		tar.clear();
-		
+
 		Random rd = new Random();
-		int piv_1 = rd.nextInt(Config.MAX_LEN);
-		int piv_2 = piv_1 + rd.nextInt(150);
 		
-		CrossOverGene crossOG = new CrossOverGene(findPoint(indi_1, piv_1), findPoint(indi_2, piv_2), piv_2 - piv_1);
+		int len = rd.nextInt(50) + 50;
+		ArrayList<Integer> pivL = (ArrayList<Integer>) findListPiv(indi_1, indi_2, len);
+		if (pivL.size() == 0) {
+			return ;
+		}
+		int piv = rd.nextInt(pivL.size());
+		piv = pivL.get(piv);
+		CrossOverGene crossOG = new CrossOverGene(findPoint(indi_1, piv), findPoint(indi_2, piv + len), len);
 		List<Double> tmp = crossOG.subGene();
+		if (tmp.size() == 0) {
+			return;
+		}
 		int i = 0;
-		for (i = 0; i < piv_1; i++) {
+		for (i = 0; i < piv; i++) {
 			tar.add(indi_1.get(i));
 		}
-		for (; i < piv_2; i++) {
-			tar.add(tmp.get(i - piv_1));
+		for (; i < piv + len; i++) {
+			tar.add(tmp.get(i - piv));
 		}
 		for (i = 0; i < Config.MAX_LEN; i++) {
 			tar.add(indi_2.get(i));
@@ -255,45 +315,52 @@ public class PSO_Search {
 		for (int it = 0; it < Config.ITERATOR; it++) {
 //				PSO for MEP
 
-			for (int iter = 0; iter < Config.ITERATOR / 10; iter++) {
-				for (int i = 0; i < Config.numIndi; i++) {
-
-					ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
-					ArrayList<Double> tmpVEL_g = sub2indi(gBest, pos[i]);
-					for (int j = 0; j < Config.MAX_LEN; j++) {
-						vel[i].set(j, Config.C * vel[i].get(j) + Config.C1 * r.nextDouble() * tmpVEL_p.get(j)
-								+ Config.C2 * r.nextDouble() * tmpVEL_g.get(j));
-//						System.out.print(vel[i].get(j) + " ");
-					}
-//					System.out.println();
-					pos[i] = addIndivsSub(pos[i], vel[i]);
-				}
-			}
-
-			updatePBest();
-			updateGBest();
+//			for (int iter = 0; iter < Config.ITERATOR / 10; iter++) {
+//				for (int i = 0; i < Config.numIndi; i++) {
+//
+//					ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
+//					ArrayList<Double> tmpVEL_g = sub2indi(gBest, pos[i]);
+//					for (int j = 0; j < Config.MAX_LEN; j++) {
+//						vel[i].set(j, Config.C * vel[i].get(j) + Config.C1 * r.nextDouble() * tmpVEL_p.get(j)
+//								+ Config.C2 * r.nextDouble() * tmpVEL_g.get(j));
+////						System.out.print(vel[i].get(j) + " ");
+//					}
+////					System.out.println();
+//					pos[i] = addIndivsSub(pos[i], vel[i]);
+//				}
+//			}
+//
+//			updatePBest();
+//			updateGBest();
 
 			/*
 			 * CrossOver Prob : 0,5
-			 */
-			if (r.nextDouble() < 1) {
-				for (int i = 0; i < Config.numIndi / 2; i++) {
-					ArrayList<Double> tmp = new ArrayList<Double>();
-					Crossover(tmp, pBest[i], pBest[i + Config.numIndi / 2]);
-					double tmp_fitness = calFitness(tmp);
-					if (tmp_fitness < fitnessPBest[i]) {
-						copy(tmp, pBest[i]);
-						copy(tmp, pos[i]);
-					} else if (tmp_fitness < fitnessPBest[i + Config.numIndi / 2]) {
-						copy(tmp, pBest[i + Config.numIndi / 2]);
-						copy(tmp, pos[i + Config.numIndi / 2]);
-					}
+			 *
+			
+			for (int i = 0; i < Config.numIndi / 2; i++) {
+				ArrayList<Double> tmp = new ArrayList<Double>();
+				Crossover(tmp, pBest[i], pBest[i + Config.numIndi / 2]);
+				
+				double tmp_fitness;
+				if (tmp.size() == 0) {
+					System.out.println("Failed");
+					tmp_fitness = Double.MAX_VALUE;
+				} else {
+					tmp_fitness = calFitness(tmp);
 				}
-				updatePBest();
-				updateGBest();
+				
+				if (tmp_fitness < fitnessPBest[i]) {
+					copy(tmp, pBest[i]);
+					copy(tmp, pos[i]);
+				} else if (tmp_fitness < fitnessPBest[i + Config.numIndi / 2]) {
+					copy(tmp, pBest[i + Config.numIndi / 2]);
+					copy(tmp, pos[i + Config.numIndi / 2]);
+				}
 			}
+			updatePBest();
+			updateGBest();
 
-			/*
+			 *
 			 * Mutation : Inverse vs Symetric
 			 */
 
