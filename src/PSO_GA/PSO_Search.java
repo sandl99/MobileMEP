@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
-import Info.*;
+import Info.Config;
+import Info.Point;
+import Info.Sensor;
 
 public class PSO_Search {
 
@@ -105,7 +107,7 @@ public class PSO_Search {
 			}
 		}
 		// Code for intruder travel to target
-		
+
 		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
 		if (Config.YN < tmp_y)
@@ -118,7 +120,7 @@ public class PSO_Search {
 //				s.setDefault();
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -186,15 +188,34 @@ public class PSO_Search {
 		}
 	}
 
+	private static Point findPoint(ArrayList<Double> indi, int len) {
+		double x = Config.X0;
+		double y = Config.Y0;
+
+		for (int i = 0; i < len; i++) {
+			x += Config.DS * Math.cos(indi.get(i));
+			y += Config.DS * Math.sin(indi.get(i));
+		}
+		return new Point(x, y);
+	}
+
 	public static void Crossover(ArrayList<Double> tar, ArrayList<Double> indi_1, ArrayList<Double> indi_2) {
-		double tmp;
 		tar.clear();
+		
 		Random rd = new Random();
-		int pivot = rd.nextInt(750);
-		for (int i = 0; i < pivot; i++) {
+		int piv_1 = rd.nextInt(Config.MAX_LEN);
+		int piv_2 = piv_1 + rd.nextInt(150);
+		
+		CrossOverGene crossOG = new CrossOverGene(findPoint(indi_1, piv_1), findPoint(indi_2, piv_2), piv_2 - piv_1);
+		List<Double> tmp = crossOG.subGene();
+		int i = 0;
+		for (i = 0; i < piv_1; i++) {
 			tar.add(indi_1.get(i));
 		}
-		for (int i = pivot; i < Config.MAX_LEN; i++) {
+		for (; i < piv_2; i++) {
+			tar.add(tmp.get(i - piv_1));
+		}
+		for (i = 0; i < Config.MAX_LEN; i++) {
 			tar.add(indi_2.get(i));
 		}
 	}
@@ -213,6 +234,7 @@ public class PSO_Search {
 		for (int i = pos_two; i < Config.MAX_LEN; i++)
 			tar.add(indi.get(i));
 	}
+
 	public static void Mutation_Symetric(ArrayList<Double> tar, ArrayList<Double> indi) {
 		tar.clear();
 		Random rd = new Random();
@@ -250,10 +272,9 @@ public class PSO_Search {
 
 			updatePBest();
 			updateGBest();
-			
+
 			/*
-			 * CrossOver
-			 * Prob : 0,5
+			 * CrossOver Prob : 0,5
 			 */
 			if (r.nextDouble() < 1) {
 				for (int i = 0; i < Config.numIndi / 2; i++) {
@@ -271,11 +292,11 @@ public class PSO_Search {
 				updatePBest();
 				updateGBest();
 			}
-			
+
 			/*
 			 * Mutation : Inverse vs Symetric
 			 */
-		
+
 			for (int i = 0; i < Config.numIndi; i++) {
 				ArrayList<Double> tmp = new ArrayList<Double>();
 				if (r.nextDouble() < 0.3) {
@@ -283,7 +304,7 @@ public class PSO_Search {
 				} else {
 					Mutation_Symetric(tmp, pBest[i]);
 				}
-				
+
 				if (calFitness(tmp) < fitnessPBest[i]) {
 					copy(tmp, pBest[i]);
 					copy(tmp, pos[i]);
@@ -292,8 +313,8 @@ public class PSO_Search {
 			}
 			updatePBest();
 			updateGBest();
-			System.out.println("Fitness " + it + " th : "  + fitnessGBest);
-		}	
+			System.out.println("Fitness " + it + " th : " + fitnessGBest);
+		}
 	}
 
 	double getStandar(double[] rs, double kqAV) {
@@ -304,14 +325,14 @@ public class PSO_Search {
 		double temp = Math.sqrt(total / rs.length);
 		return temp;
 	}
-	
+
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
 		for (int nums = 2; nums <= 4; nums++) {
 			int n = 25 * nums;
 			for (int i = 1; i <= 20; i++) {
-				
+
 				PSO_Search pso = new PSO_Search();
 				pso.readData("./Data/RanPoint/" + n + "/test_" + i + ".txt");
 				double[] kq = new double[5];
@@ -332,7 +353,7 @@ public class PSO_Search {
 				try {
 					fos = new FileOutputStream("./Result/PSO_GA/RanPoint/" + n + "/result_" + i + ".txt", false);
 					pw = new PrintWriter(fos);
-					
+
 					for (int j = 0; j < kq.length; j++) {
 						ketqua += kq[j];
 						thoigian += time[j];
@@ -346,7 +367,7 @@ public class PSO_Search {
 					pw.println("TIM: " + thoigian);
 
 					pw.close();
-					
+
 					pw.close();
 					fos.close();
 				} catch (FileNotFoundException e) {
@@ -355,7 +376,7 @@ public class PSO_Search {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-	//
+				//
 			}
 		}
 	}
