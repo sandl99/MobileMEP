@@ -26,7 +26,7 @@ public class PSO_Search {
 	public ArrayList<Double> gBest = new ArrayList<Double>();
 	ArrayList<Double>[] vel = new ArrayList[Config.numIndi];
 	double[] fitnessPBest = new double[Config.numIndi];
-	double fitnessGBest;
+	public double fitnessGBest;
 	ArrayList<ArrayList<Point>> tmp = new ArrayList<>();
 
 	public static double calDistance(Point p1, Point p2) {
@@ -396,7 +396,7 @@ public class PSO_Search {
 		}
 	}
 
-	double getStandar(double[] rs, double kqAV) {
+	public double getStandar(double[] rs, double kqAV) {
 		double total = 0;
 		for (int i = 0; i < rs.length; i++) {
 			total += Math.pow(rs[i] - kqAV, 2);

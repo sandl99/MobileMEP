@@ -28,7 +28,7 @@ public class MBGA {
 //	final static double YN = 10.0; // sua
 //	final double XN = 100.0;
 
-	int n; // so Sensor
+	public int n; // so Sensor
 	double r;
 	int k;
 
@@ -639,7 +639,7 @@ public class MBGA {
 		drw.paintSensor(tmp);
 	}
 
-	double getStandar(double[] rs, double kqAV) {
+	public double getStandar(double[] rs, double kqAV) {
 		double total = 0;
 		for (int i = 0; i < rs.length; i++) {
 			total += Math.pow(rs[i] - kqAV, 2);
