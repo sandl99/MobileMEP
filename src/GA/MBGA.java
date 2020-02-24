@@ -569,7 +569,7 @@ public class MBGA {
 		double epsilon = 0.001;
 		int count = 0;
 		double kqtruoc = 0.0;
-		
+
 		for (int i = 0; i < iter; i++) {
 			// System.out.println("\n################## " + i );
 			double[][] cr = Crossover(init, 20);
@@ -584,7 +584,7 @@ public class MBGA {
 			double[] yt = vitri(se[0], Config.Y0);
 			double[] xt = vitri(xySolution(se[0]), Config.X0);
 			double testvalue = value(list, xt, yt);
-			System.out.println("\n @@@: " + i + "---" + testvalue);
+//			System.out.println("\n @@@: " + i + "---" + testvalue);
 		}
 		return y_best;
 		/*
@@ -628,7 +628,7 @@ public class MBGA {
 		for (int i = 0; i < ybest.length; i++) {
 			tmp.add(Math.asin(ybest[i] / Config.DS));
 		}
-		Paint(tmp);
+//		Paint(tmp);
 		return value;
 
 	}
@@ -648,60 +648,62 @@ public class MBGA {
 		return temp;
 	}
 
-	
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		for (int nums = 4; nums <= 4; nums++) {
+		String[] str = { "Rect", "RanPoint", "PathWay" };
+		for (String s : str) {
+			for (int nums = 1; nums <= 4; nums++) {
 //			n = nums * 25;
-			for (int i = 19; i <= 20; i++) {
-				MBGA mb = new MBGA();
-				mb.n = nums * 25;
-				mb.readData("./Data/RanPoint/" + mb.n + "/test_" + i + ".txt"); // sua
+				for (int i = 11; i <= 20; i++) {
+					MBGA mb = new MBGA();
+					mb.n = nums * 25;
+					mb.readData("./Data/" + s + "/" + mb.n + "/test_" + i + ".txt"); // sua
 
-				double[] kq = new double[5];
-				double[] time = new double[kq.length];
+					double[] kq = new double[20];
+					double[] time = new double[kq.length];
 
-				for (int k = 0; k < kq.length; k++) {
-					System.out.println("n = " + mb.n + " i = " + i);
-					System.out.print("Epoch: " + k + ": ");
-					double[] dtx = mb.xSolution();
-					double[] dty0 = mb.xySolution(dtx);
-					double[] dty = mb.OptimizeY(dty0);
+					for (int k = 0; k < kq.length; k++) {
+						System.out.println(s + "---- n = " + mb.n + " i = " + i);
+						System.out.print("Epoch: " + k + ": ");
+						double[] dtx = mb.xSolution();
+						double[] dty0 = mb.xySolution(dtx);
+						double[] dty = mb.OptimizeY(dty0);
 
-					long begin = Calendar.getInstance().getTimeInMillis();
-					kq[k] = mb.result(dty);
-					long end = Calendar.getInstance().getTimeInMillis();
-					
-					System.out.println(kq[k]);
-					time[k] = (end - begin);
-					
-				}
-				double ketqua = 0.0;
-				double thoigian = 0.0;
+						long begin = Calendar.getInstance().getTimeInMillis();
+						kq[k] = mb.result(dty);
+						long end = Calendar.getInstance().getTimeInMillis();
 
-				try {
-					fos = new FileOutputStream("./Result/MBGA/RanPoint/" + mb.n + "/result_" + i + ".txt", false);
-					pw = new PrintWriter(fos);
-					for (int j = 0; j < kq.length; j++) {
-						ketqua += kq[j];
-						thoigian += time[j];
+						System.out.println(kq[k]);
+						time[k] = (end - begin);
 
 					}
-					ketqua = ketqua / kq.length;
-					thoigian = thoigian / kq.length;
+					double ketqua = 0.0;
+					double thoigian = 0.0;
 
-					pw.println("MEP: " + ketqua);
-					pw.println("DEV: " + mb.getStandar(kq, ketqua));
-					pw.println("TIM: " + thoigian);
+					try {
+						fos = new FileOutputStream("./Result/PSO_GA/" +  s + "/" + mb.n + "/result_" + i + ".txt", false);
+						pw = new PrintWriter(fos);
+						for (int j = 0; j < kq.length; j++) {
+							ketqua += kq[j];
+							thoigian += time[j];
 
-					pw.close();
-					fos.close();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+						}
+						ketqua = ketqua / kq.length;
+						thoigian = thoigian / kq.length;
+
+						pw.println("MEP: " + ketqua);
+						pw.println("DEV: " + mb.getStandar(kq, ketqua));
+						pw.println("TIM: " + thoigian);
+
+						pw.close();
+						fos.close();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

@@ -109,7 +109,7 @@ public class PSO_Search {
 			}
 		}
 		// Code for intruder travel to target
-		/*
+		
 		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
 		if (Config.YN < tmp_y)
@@ -122,7 +122,7 @@ public class PSO_Search {
 //				s.setDefault();
 			}
 		}
-	*/
+	
 		return result;
 	}
 
@@ -225,7 +225,7 @@ public class PSO_Search {
 		/*
 		 * Starting ...
 		 */
-		for (int i = piv_1; i < 800; i++) {
+		for (int i = piv_1; i < 700; i++) {
 			x1 += Config.DS * Math.cos(indi_1.get(i));
 			y1 += Config.DS * Math.sin(indi_1.get(i));
 			
@@ -252,11 +252,12 @@ public class PSO_Search {
 	}
 	
 	public static void Crossover(ArrayList<Double> tar, ArrayList<Double> indi_1, ArrayList<Double> indi_2) {
+		/*
 		tar.clear();
 
 		Random rd = new Random();
 		
-		int len = rd.nextInt(50) + 50;
+		int len = rd.nextInt(100) + 100;
 		ArrayList<Integer> pivL = (ArrayList<Integer>) findListPiv(indi_1, indi_2, len);
 		if (pivL.size() == 0) {
 			return ;
@@ -276,6 +277,17 @@ public class PSO_Search {
 			tar.add(tmp.get(i - piv));
 		}
 		for (i = 0; i < Config.MAX_LEN; i++) {
+			tar.add(indi_2.get(i));
+		}
+		*/
+		double tmp;
+		tar.clear();
+		Random rd = new Random();
+		int pivot = rd.nextInt(750);
+		for (int i = 0; i < pivot; i++) {
+			tar.add(indi_1.get(i));
+		}
+		for (int i = pivot; i < Config.MAX_LEN; i++) {
 			tar.add(indi_2.get(i));
 		}
 	}
@@ -315,27 +327,27 @@ public class PSO_Search {
 		for (int it = 0; it < Config.ITERATOR; it++) {
 //				PSO for MEP
 
-//			for (int iter = 0; iter < Config.ITERATOR / 10; iter++) {
-//				for (int i = 0; i < Config.numIndi; i++) {
-//
-//					ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
-//					ArrayList<Double> tmpVEL_g = sub2indi(gBest, pos[i]);
-//					for (int j = 0; j < Config.MAX_LEN; j++) {
-//						vel[i].set(j, Config.C * vel[i].get(j) + Config.C1 * r.nextDouble() * tmpVEL_p.get(j)
-//								+ Config.C2 * r.nextDouble() * tmpVEL_g.get(j));
-////						System.out.print(vel[i].get(j) + " ");
-//					}
-////					System.out.println();
-//					pos[i] = addIndivsSub(pos[i], vel[i]);
-//				}
-//			}
-//
-//			updatePBest();
-//			updateGBest();
+			for (int iter = 0; iter < Config.ITERATOR / 10; iter++) {
+				for (int i = 0; i < Config.numIndi; i++) {
+
+					ArrayList<Double> tmpVEL_p = sub2indi(pBest[i], pos[i]);
+					ArrayList<Double> tmpVEL_g = sub2indi(gBest, pos[i]);
+					for (int j = 0; j < Config.MAX_LEN; j++) {
+						vel[i].set(j, Config.C * vel[i].get(j) + Config.C1 * r.nextDouble() * tmpVEL_p.get(j)
+								+ Config.C2 * r.nextDouble() * tmpVEL_g.get(j));
+//						System.out.print(vel[i].get(j) + " ");
+					}
+//					System.out.println();
+					pos[i] = addIndivsSub(pos[i], vel[i]);
+				}
+			}
+
+			updatePBest();
+			updateGBest();
 
 			/*
 			 * CrossOver Prob : 0,5
-			 *
+			 */
 			
 			for (int i = 0; i < Config.numIndi / 2; i++) {
 				ArrayList<Double> tmp = new ArrayList<Double>();
@@ -360,7 +372,7 @@ public class PSO_Search {
 			updatePBest();
 			updateGBest();
 
-			 *
+			 /*
 			 * Mutation : Inverse vs Symetric
 			 */
 
@@ -396,54 +408,57 @@ public class PSO_Search {
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		for (int nums = 2; nums <= 4; nums++) {
-			int n = 25 * nums;
-			for (int i = 1; i <= 20; i++) {
+		String[] str = {"Rect", "RanPoint", "PathWay"};
+		for (String s : str) {
+			for (int nums = 1; nums <= 4; nums++) {
+				int n = 25 * nums;
+				for (int i = 11; i <= 20; i++) {
 
-				PSO_Search pso = new PSO_Search();
-				pso.readData("./Data/RanPoint/" + n + "/test_" + i + ".txt");
-				double[] kq = new double[5];
-				double[] time = new double[kq.length];
+					PSO_Search pso = new PSO_Search();
+					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
+					double[] kq = new double[20];
+					double[] time = new double[kq.length];
 
-				for (int k = 0; k < kq.length; k++) {
-					System.out.println("n = " + n + " i = " + i);
-					System.out.print("Epoch: " + k + ": ");
-					pso.init();
-					long begin = Calendar.getInstance().getTimeInMillis();
-					pso.runPSO();
-					long end = Calendar.getInstance().getTimeInMillis();
-					kq[k] = pso.fitnessGBest;
-					time[k] = end - begin;
-				}
-				double ketqua = 0.0;
-				double thoigian = 0.0;
-				try {
-					fos = new FileOutputStream("./Result/PSO_GA/RanPoint/" + n + "/result_" + i + ".txt", false);
-					pw = new PrintWriter(fos);
-
-					for (int j = 0; j < kq.length; j++) {
-						ketqua += kq[j];
-						thoigian += time[j];
-
+					for (int k = 0; k < kq.length; k++) {
+						System.out.println(s + "---- n = " + n + " i = " + i);
+						System.out.print("Epoch: " + k + ": ");
+						pso.init();
+						long begin = Calendar.getInstance().getTimeInMillis();
+						pso.runPSO();
+						long end = Calendar.getInstance().getTimeInMillis();
+						kq[k] = pso.fitnessGBest;
+						time[k] = end - begin;
 					}
-					ketqua = ketqua / kq.length;
-					thoigian = thoigian / kq.length;
+					double ketqua = 0.0;
+					double thoigian = 0.0;
+					try {
+						fos = new FileOutputStream("./Result/PSO_GA/" +  s + "/" + n + "/result_" + i + ".txt", false);
+						pw = new PrintWriter(fos);
 
-					pw.println("MEP: " + ketqua);
-					pw.println("DEV: " + pso.getStandar(kq, ketqua));
-					pw.println("TIM: " + thoigian);
+						for (int j = 0; j < kq.length; j++) {
+							ketqua += kq[j];
+							thoigian += time[j];
 
-					pw.close();
+						}
+						ketqua = ketqua / kq.length;
+						thoigian = thoigian / kq.length;
 
-					pw.close();
-					fos.close();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+						pw.println("MEP: " + ketqua);
+						pw.println("DEV: " + pso.getStandar(kq, ketqua));
+						pw.println("TIM: " + thoigian);
+
+						pw.close();
+
+						pw.close();
+						fos.close();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					//
 				}
-				//
 			}
 		}
 	}
