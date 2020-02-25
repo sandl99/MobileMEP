@@ -427,6 +427,7 @@ public class PSO_Search {
 						pso.runPSO();
 						long end = Calendar.getInstance().getTimeInMillis();
 						kq[k] = pso.fitnessGBest;
+						System.out.println(kq[k]);
 						time[k] = end - begin;
 					}
 					double ketqua = 0.0;
