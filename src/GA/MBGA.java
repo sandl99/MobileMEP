@@ -682,7 +682,7 @@ public class MBGA {
 					double thoigian = 0.0;
 
 					try {
-						fos = new FileOutputStream("./Result/PSO_GA/" +  s + "/" + mb.n + "/result_" + i + ".txt", false);
+						fos = new FileOutputStream("./Result/PSO_GA/" +  s + "/" + nums * 25 + "/result_" + i + ".txt", false);
 						pw = new PrintWriter(fos);
 						for (int j = 0; j < kq.length; j++) {
 							ketqua += kq[j];
