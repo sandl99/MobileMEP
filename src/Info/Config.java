@@ -15,8 +15,8 @@ public class Config {
 
 //	Begin position
 	public final static double X0 = 0.0;
-	public final static double Y0 = 30.0;
-	public final static double YN = 10.0;
+	public final static double Y0 = 30.5;
+	public final static double YN = 10.5;
 
 //	Delta s
 	public final static double DS = 0.2;

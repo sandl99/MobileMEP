@@ -246,6 +246,7 @@ public class MBGA {
 				value += s.MEx(x[i], y[i]) * Config.DT;
 				s.move(Config.DT * Config.VS);
 			}
+//			System.out.println("Value: " + value);
 		}
 
 		// Closest:
@@ -562,9 +563,6 @@ public class MBGA {
 
 		double[][] init = AllSolution(dty);
 		double[] y_best = new double[init[0].length];
-		for (int i = 0; i < init[0].length; i++) {
-			y_best[i] = init[0][i];
-		}
 		double value = Double.MAX_VALUE;
 		double epsilon = 0.001;
 		int count = 0;
@@ -628,7 +626,7 @@ public class MBGA {
 		for (int i = 0; i < ybest.length; i++) {
 			tmp.add(Math.asin(ybest[i] / Config.DS));
 		}
-//		Paint(tmp);
+		Paint(tmp);
 		return value;
 
 	}
@@ -651,11 +649,11 @@ public class MBGA {
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		String[] str = { "Rect", "RanPoint", "PathWay" };
+		String[] str = { "PathWay", "RanPoint", "Rect" };
 		for (String s : str) {
-			for (int nums = 1; nums <= 4; nums++) {
+			for (int nums = 3; nums <= 4; nums++) {
 //			n = nums * 25;
-				for (int i = 11; i <= 20; i++) {
+				for (int i = 15; i <= 20; i++) {
 					MBGA mb = new MBGA();
 					mb.n = nums * 25;
 					mb.readData("./Data/" + s + "/" + mb.n + "/test_" + i + ".txt"); // sua

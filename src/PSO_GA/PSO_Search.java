@@ -408,11 +408,11 @@ public class PSO_Search {
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		String[] str = {"Rect", "RanPoint", "PathWay"};
+		String[] str = {"PathWay", "RanPoint", "Rect"};
 		for (String s : str) {
-			for (int nums = 1; nums <= 4; nums++) {
+			for (int nums = 3; nums <= 4; nums++) {
 				int n = 25 * nums;
-				for (int i = 11; i <= 20; i++) {
+				for (int i = 15; i <= 20; i++) {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");

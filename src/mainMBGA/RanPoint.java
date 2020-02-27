@@ -43,7 +43,7 @@ public class RanPoint {
 					double thoigian = 0.0;
 
 					try {
-						fos = new FileOutputStream("./Result/PSO_GA/" +  s + "/" + mb.n + "/result_" + i + ".txt", false);
+						fos = new FileOutputStream("./Result/MBGA/" +  s + "/" + mb.n + "/result_" + i + ".txt", false);
 						pw = new PrintWriter(fos);
 						for (int j = 0; j < kq.length; j++) {
 							ketqua += kq[j];
