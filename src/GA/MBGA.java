@@ -626,7 +626,7 @@ public class MBGA {
 		for (int i = 0; i < ybest.length; i++) {
 			tmp.add(Math.asin(ybest[i] / Config.DS));
 		}
-		Paint(tmp);
+//		Paint(tmp);
 		return value;
 
 	}
