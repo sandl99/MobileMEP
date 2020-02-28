@@ -125,6 +125,25 @@ public class PSO_Search {
 	
 		return result;
 	}
+	public double calSawTooth(ArrayList<Double> indi) {
+		for (Sensor s : list) {
+			s.setDefault();
+		}
+		double value = 0;
+		
+		double tmp_x = Config.X0, tmp_y = Config.Y0;
+		int i, dem = 0;
+		for (i = 1; i <= Config.MAX_LEN; i++) {
+			tmp_x += Config.DT * Config.VI * Math.cos(indi.get(i - 1));
+			tmp_y += Config.DT * Config.VI * Math.sin(indi.get(i - 1));
+			if (tmp_x > Config.W) {
+				break;
+			}
+			value += Math.abs(indi.get(i) - indi.get(i - 1));
+			dem += 1;
+		}
+		return value / dem;
+	}
 
 	public void init() {
 		Random r = new Random();
@@ -410,7 +429,7 @@ public class PSO_Search {
 		PrintWriter pw;
 		String[] str = {"PathWay", "RanPoint", "Rect"};
 		for (String s : str) {
-			for (int nums = 3; nums <= 4; nums++) {
+			for (int nums = 2; nums <= 4; nums++) {
 				int n = 25 * nums;
 				for (int i = 15; i <= 20; i++) {
 
@@ -428,6 +447,7 @@ public class PSO_Search {
 						long end = Calendar.getInstance().getTimeInMillis();
 						kq[k] = pso.fitnessGBest;
 						System.out.println(kq[k]);
+						System.out.println("Saw Tooth: " + pso.calSawTooth(pso.gBest));
 						time[k] = end - begin;
 					}
 					double ketqua = 0.0;

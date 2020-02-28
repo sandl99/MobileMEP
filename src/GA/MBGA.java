@@ -256,6 +256,10 @@ public class MBGA {
 		 */
 		return value;
 	}
+	
+//	public double calSawtooth(double[] x, double[] y) {
+//		double value = 0;
+//	}
 
 	// TÃ¬m sensor gáº§n nháº¥t:
 	public Sensor closest(ArrayList<Sensor> list, double x, double y) {
@@ -622,11 +626,18 @@ public class MBGA {
 		double[] xt = vitri(xySolution(ybest), Config.X0);
 		double value = value(list, xt, yt);
 
+		double sawTooth = 0;
+		int dem = 0;
 		ArrayList<Double> tmp = new ArrayList<>();
 		for (int i = 0; i < ybest.length; i++) {
 			tmp.add(Math.asin(ybest[i] / Config.DS));
 		}
+		for (int i = 1; i < tmp.size(); i++) {
+			sawTooth += Math.abs(tmp.get(i) - tmp.get(i - 1));
+			dem += 1;
+		}
 //		Paint(tmp);
+		System.out.println("Saw Tooth: " + sawTooth / dem);
 		return value;
 
 	}
@@ -651,7 +662,7 @@ public class MBGA {
 		PrintWriter pw;
 		String[] str = { "PathWay", "RanPoint", "Rect" };
 		for (String s : str) {
-			for (int nums = 3; nums <= 4; nums++) {
+			for (int nums = 2; nums <= 4; nums++) {
 //			n = nums * 25;
 				for (int i = 15; i <= 20; i++) {
 					MBGA mb = new MBGA();
