@@ -96,7 +96,8 @@ public class PSO_Search {
 		double result = 0;
 
 		double tmp_x = Config.X0, tmp_y = Config.Y0;
-		for (int i = 1; i <= Config.MAX_LEN; i++) {
+		int i;
+		for (i = 1; i <= Config.MAX_LEN; i++) {
 			tmp_x += Config.DT * Config.VI * Math.cos(indi.get(i - 1));
 			tmp_y += Config.DT * Config.VI * Math.sin(indi.get(i - 1));
 			if (tmp_x > Config.W)
@@ -108,13 +109,14 @@ public class PSO_Search {
 				s.move(Config.DT * Config.VS);
 			}
 		}
+//		System.out.println("end gene: " + i);
 		// Code for intruder travel to target
 		
 		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
 		if (Config.YN < tmp_y)
 			sign = -1.0;
-		while (Math.abs(tmp_y - Config.YN) >= 0.2) {
+		while (Math.abs(tmp_y - Config.YN) >= Config.DS) {
 			tmp_y += sign * Config.DS;
 			for (Sensor s : list) {
 				s.move(Config.DT * Config.VS);
@@ -392,7 +394,7 @@ public class PSO_Search {
 			}
 			updatePBest();
 			updateGBest();
-//			System.out.println("Fitness " + it + " th : " + fitnessGBest);
+			System.out.println("Fitness " + it + " th : " + fitnessGBest);
 		}
 	}
 
@@ -408,9 +410,9 @@ public class PSO_Search {
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		String[] str = {"PathWay", "RanPoint", "Rect"};
+		String[] str = {"RanPoint", "PathWay", "Rect"};
 		for (String s : str) {
-			for (int nums = 3; nums <= 4; nums++) {
+			for (int nums = 4; nums <= 4; nums++) {
 				int n = 25 * nums;
 				for (int i = 15; i <= 20; i++) {
 

@@ -582,7 +582,7 @@ public class MBGA {
 			double[] yt = vitri(se[0], Config.Y0);
 			double[] xt = vitri(xySolution(se[0]), Config.X0);
 			double testvalue = value(list, xt, yt);
-//			System.out.println("\n @@@: " + i + "---" + testvalue);
+			System.out.println("\n @@@: " + i + "---" + testvalue);
 		}
 		return y_best;
 		/*
@@ -649,9 +649,9 @@ public class MBGA {
 	public static void main(String[] args) {
 		FileOutputStream fos;
 		PrintWriter pw;
-		String[] str = { "PathWay", "RanPoint", "Rect" };
+		String[] str = { "RanPoint", "RanPoint", "Rect" };
 		for (String s : str) {
-			for (int nums = 3; nums <= 4; nums++) {
+			for (int nums = 4; nums <= 4; nums++) {
 //			n = nums * 25;
 				for (int i = 15; i <= 20; i++) {
 					MBGA mb = new MBGA();

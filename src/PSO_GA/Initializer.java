@@ -133,6 +133,15 @@ public class Initializer {
 		startPoint.setX(xCur);
 		startPoint.setY(yCur);
 	}
+	public static ArrayList<Double> initRandomGenes() {
+		Random rd = new Random();
+		ArrayList<Double> res = new ArrayList<>();
+		for (int i = 0; i < Config.MAX_LEN; i++) {
+			res.add(rd.nextDouble() * Math.PI - Math.PI / 2);
+		}
+		
+		return res;
+	}
 	public static void main(String[] args) {
 		List<Double> tmp = Initializer.initGenes();
 		

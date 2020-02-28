@@ -6,21 +6,28 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 
+import Info.Config;
 import PSO_GA.PSO_Search;
 
 public class RanPoint {
 	public static void main(String[] args) {
+		Config.DS = Double.parseDouble(args[0]);
+		Config.MAX_LEN = (int) (4000 / Config.DS);
+		Config.DT = Config.DS / Config.VI;
+		System.out.println("DS:=  " + Config.DS);
+		System.out.println("DT:=  " + Config.DT);
+		System.out.println("MAX_GEN:= " + Config.MAX_LEN);
 		FileOutputStream fos;
 		PrintWriter pw;
 		String[] str = {"RanPoint"};
 		for (String s : str) {
-			for (int nums = 1; nums <= 4; nums++) {
+			for (int nums = 3; nums <= 4; nums++) {
 				int n = 25 * nums;
-				for (int i = 11; i <= 20; i++) {
+				for (int i = 15; i <= 15; i++) {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
-					double[] kq = new double[20];
+					double[] kq = new double[1];
 					double[] time = new double[kq.length];
 
 					for (int k = 0; k < kq.length; k++) {
@@ -31,7 +38,8 @@ public class RanPoint {
 						pso.runPSO();
 						long end = Calendar.getInstance().getTimeInMillis();
 						kq[k] = pso.fitnessGBest;
-						System.out.println(kq[k]);
+						System.out.println("MEV:= " + kq[k]);
+						System.out.println("Time:= " + (end - begin));
 						time[k] = end - begin;
 					}
 					double ketqua = 0.0;
