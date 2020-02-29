@@ -14,7 +14,7 @@ public class Rect {
 		PrintWriter pw;
 		String[] str = {"Rect"};
 		for (String s : str) {
-			for (int nums = 1; nums <= 4; nums++) {
+			for (int nums = 3; nums <= 4; nums++) {
 				int n = 25 * nums;
 				for (int i = 11; i <= 13; i++) {
 
