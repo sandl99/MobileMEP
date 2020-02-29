@@ -5,21 +5,21 @@ public class Config {
 	public static final double H = 40; 
 	public static final double R = 3;
 //	Velocity of Intruder
-	public static final double VI = 2; 
+	public static double VI = 2; 
 	
 //	Velocity of Sensor
-	public final static double VS = 1; // van toc cam bien
+	public final static double VS = 0; // van toc cam bien
 	
 // Delta t
-	public final static double DT = 0.1; // delta t
+	
 
 //	Begin position
 	public final static double X0 = 0.0;
-	public final static double Y0 = 30.5;
-	public final static double YN = 10.5;
+	public final static double Y0 = 30;
+	public final static double YN = 10;
 
 //	Delta s
-	public final static double DS = 0.2;
+	public static double DS = 0.2;
 	
 //	Number of Individual
 	public final static int numIndi = 100;
@@ -34,6 +34,6 @@ public class Config {
 	public final static int ALPHA = 2;
 	
 //	Length of Individual
-	public final static int MAX_LEN = 1000;
-	
+	public static int MAX_LEN = (int) (200 / DS);
+	public static double DT = DS / VI;
 }
