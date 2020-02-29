@@ -11,11 +11,7 @@ import PSO_GA.PSO_Search;
 
 public class Rect {
 	public static void main(String[] args) {
-		Config.VI = Double.parseDouble(args[0]);
-		Config.DT = Config.DS / Config.VI;
-		System.out.println("VI:=  " + Config.VI);
-		System.out.println("DS:=  " + Config.DS);
-		System.out.println("DT:=  " + Config.DT);
+
 		
 		FileOutputStream fos;
 		PrintWriter pw;

@@ -400,7 +400,7 @@ public class PSO_Search {
 				if (r.nextDouble() < 0.3) {
 					Mutation_Inverse(tmp, pBest[i]);
 				} else {
-					Mutation_Symetric(tmp, pBest[i]);
+//					Mutation_Symetric(tmp, pBest[i]);
 				}
 
 				if (calFitness(tmp) < fitnessPBest[i]) {
