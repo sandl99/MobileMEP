@@ -429,13 +429,13 @@ public class PSO_Search {
 		PrintWriter pw;
 		String[] str = {"PathWay", "RanPoint", "Rect"};
 		for (String s : str) {
-			for (int nums = 2; nums <= 4; nums++) {
+			for (int nums = 1; nums <= 4; nums++) {
 				int n = 25 * nums;
-				for (int i = 15; i <= 20; i++) {
+				for (int i = 22; i <= 22; i++) {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
-					double[] kq = new double[20];
+					double[] kq = new double[2];
 					double[] time = new double[kq.length];
 
 					for (int k = 0; k < kq.length; k++) {

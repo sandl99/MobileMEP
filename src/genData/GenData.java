@@ -96,7 +96,12 @@ public class GenData {
 				Point p[] = new Point[numPos];
 				
 				for (int j = 0; j < numPos; j++) {
-					p[j] = new Point((int) (Math.random() * Config.W), (int) (Math.random() * Config.H));
+					if (j == 0) {
+						p[j] = new Point((int) (Math.random() * Config.W), (int) (rd.nextGaussian() * Math.sqrt(64) + 20));
+					} else {
+						p[j] = new Point((int) (Math.random() * Config.W), (int) (Math.random() * Config.H));
+					}
+					
 				}
 
 				// Start Point
@@ -218,11 +223,11 @@ public class GenData {
 
 		for (int num = 1; num <= 4; num++) {
 			n = num * 25;
-			for (int i = 1; i <= 50; i++) {
+			for (int i = 22; i <= 22; i++) {
 				GenData genData = new GenData();
 //				genData.genDataForRect(n, i);
-//				genData.genDataForRandomPoint(n, i);
-				genData.genDataForPathWay(n, i);
+				genData.genDataForRandomPoint(n, i);
+//				genData.genDataForPathWay(n, i);
 			}
 		}
 

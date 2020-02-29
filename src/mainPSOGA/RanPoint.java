@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 
+import Info.Config;
 import PSO_GA.PSO_Search;
 
 public class RanPoint {
 	public static void main(String[] args) {
+		Config.VS = Double.parseDouble(args[0]);
+		System.out.println("VS:=  " + Config.VS);
 		FileOutputStream fos;
 		PrintWriter pw;
 		String[] str = {"RanPoint"};
