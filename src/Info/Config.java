@@ -8,7 +8,7 @@ public class Config {
 	public static double VI = 2; 
 	
 //	Velocity of Sensor
-	public final static double VS = 0; // van toc cam bien
+	public final static double VS = 1; // van toc cam bien
 	
 // Delta t
 	
