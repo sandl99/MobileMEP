@@ -97,9 +97,18 @@ public class GenData {
 				
 				for (int j = 0; j < numPos; j++) {
 					if (j == 0) {
-						p[j] = new Point((int) (Math.random() * Config.W), (int) (rd.nextGaussian() * Math.sqrt(64) + 20));
+						int y;
+						do {
+							y = (int) (rd.nextGaussian() * Math.sqrt(64) + Config.Y0);
+						} while (y <= 0 || y >= 40);
+						
+						p[j] = new Point((int) (Math.random() * Config.W), y);
 					} else {
-						p[j] = new Point((int) (Math.random() * Config.W), (int) (Math.random() * Config.H));
+						int y;
+						do {
+							y = (int) (rd.nextGaussian() * Math.sqrt(100) + Config.Y0);
+						} while (y <= 0 || y >= 40);
+						p[j] = new Point((int) (Math.random() * Config.W), y);
 					}
 					
 				}
@@ -223,7 +232,7 @@ public class GenData {
 
 		for (int num = 1; num <= 4; num++) {
 			n = num * 25;
-			for (int i = 22; i <= 22; i++) {
+			for (int i = 21; i <= 21; i++) {
 				GenData genData = new GenData();
 //				genData.genDataForRect(n, i);
 				genData.genDataForRandomPoint(n, i);

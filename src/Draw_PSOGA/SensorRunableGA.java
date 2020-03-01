@@ -92,7 +92,7 @@ public class SensorRunableGA extends PSO_Search {
 	public static void main(String args[]) {
 		long start = System.currentTimeMillis();
 		SensorRunableGA sr = new SensorRunableGA();
-		sr.readData("./Data/RanPoint/25/test_22.txt");
+		sr.readData("./Data/RanPoint/25/test_21.txt");
 		sr.init();
 //		sr.runPSO();
 		long end = System.currentTimeMillis();
