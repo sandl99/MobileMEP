@@ -12,7 +12,7 @@ import PSO_GA.PSO_Search;
 public class RanPoint {
 	public static void main(String[] args) {
 		Config.DS = Double.parseDouble(args[0]);
-		Config.MAX_LEN = (int) (4000 / Config.DS);
+		Config.MAX_LEN = (int) (200 / Config.DS);
 		Config.DT = Config.DS / Config.VI;
 		System.out.println("DS:=  " + Config.DS);
 		System.out.println("DT:=  " + Config.DT);
@@ -21,9 +21,9 @@ public class RanPoint {
 		PrintWriter pw;
 		String[] str = {"RanPoint"};
 		for (String s : str) {
-			for (int nums = 3; nums <= 4; nums++) {
+			for (int nums = 1; nums <= 4; nums++) {
 				int n = 25 * nums;
-				for (int i = 15; i <= 15; i++) {
+				for (int i = 12; i <= 12; i++) {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
