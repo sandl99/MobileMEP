@@ -54,13 +54,21 @@ public class GenData {
 			BufferedWriter br = new BufferedWriter(fileWriter);
 			br.write(Integer.toString(num_sensor));
 			br.write("\n");
-
+			Random rd = new Random();
 			for (int i = 0; i < num_sensor; i++) {
 				String data = "";
 				int numPos = 4;
 				Point p[] = new Point[4];
-				p[0] = new Point((int) (Math.random() * Config.W), (int) (Math.random() * Config.H));
-				p[2] = new Point((int) (Math.random() * Config.W), (int) (Math.random() * Config.H));
+				int y;
+				do {
+					y = (int) (rd.nextGaussian() * Math.sqrt(400) + Config.Y0);
+				} while (y <= 0 || y >= 40);
+				p[0] = new Point((int) (Math.random() * Config.W), y);
+				do {
+					y = (int) (rd.nextGaussian() * Math.sqrt(400) + Config.Y0);
+				} while (y <= 0 || y >= 40);
+				p[2] = new Point((int) (Math.random() * Config.W), y);
+				
 				p[1] = new Point(p[0].getX(), p[2].getY());
 				p[3] = new Point(p[2].getX(), p[0].getY());
 
@@ -106,7 +114,7 @@ public class GenData {
 					} else {
 						int y;
 						do {
-							y = (int) (rd.nextGaussian() * Math.sqrt(100) + Config.Y0);
+							y = (int) (rd.nextGaussian() * Math.sqrt(200) + Config.Y0);
 						} while (y <= 0 || y >= 40);
 						p[j] = new Point((int) (Math.random() * Config.W), y);
 					}
@@ -234,8 +242,8 @@ public class GenData {
 			n = num * 25;
 			for (int i = 21; i <= 21; i++) {
 				GenData genData = new GenData();
-//				genData.genDataForRect(n, i);
-				genData.genDataForRandomPoint(n, i);
+				genData.genDataForRect(n, i);
+//				genData.genDataForRandomPoint(n, i);
 //				genData.genDataForPathWay(n, i);
 			}
 		}

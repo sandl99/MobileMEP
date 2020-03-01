@@ -11,8 +11,6 @@ import PSO_GA.PSO_Search;
 
 public class RanPoint {
 	public static void main(String[] args) {
-		Config.VS = Double.parseDouble(args[0]);
-		System.out.println("VS:= " + Config.VS);
 		FileOutputStream fos;
 		PrintWriter pw;
 		String[] str = {"RanPoint"};
@@ -23,7 +21,7 @@ public class RanPoint {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
-					double[] kq = new double[5];
+					double[] kq = new double[10];
 					double[] time = new double[kq.length];
 
 					for (int k = 0; k < kq.length; k++) {

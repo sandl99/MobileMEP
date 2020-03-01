@@ -16,12 +16,12 @@ public class RanPoint {
 		for (String s : str) {
 			for (int nums = 1; nums <= 4; nums++) {
 //			n = nums * 25;
-				for (int i = 11; i <= 20; i++) {
+				for (int i = 21; i <= 21; i++) {
 					MBGA mb = new MBGA();
 					mb.n = nums * 25;
 					mb.readData("./Data/" + s + "/" + mb.n + "/test_" + i + ".txt"); // sua
 
-					double[] kq = new double[20];
+					double[] kq = new double[10];
 					double[] time = new double[kq.length];
 
 					for (int k = 0; k < kq.length; k++) {
