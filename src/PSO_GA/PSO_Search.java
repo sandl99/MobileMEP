@@ -399,10 +399,7 @@ public class PSO_Search {
 				ArrayList<Double> tmp = new ArrayList<Double>();
 				if (r.nextDouble() < 0.3) {
 					Mutation_Inverse(tmp, pBest[i]);
-//					if (calFitness(tmp) < fitnessPBest[i]) {
-//						copy(tmp, pBest[i]);
-//						copy(tmp, pos[i]);
-//					}
+
 				} else {
 					Mutation_Symetric(tmp, pBest[i]);
 //					if (calFitness(tmp) < fitnessPBest[i]) {
@@ -417,9 +414,11 @@ public class PSO_Search {
 				}
 
 			}
+			
 			updatePBest();
 			updateGBest();
 //			System.out.println("Fitness " + it + " th : " + fitnessGBest);
+
 		}
 	}
 
