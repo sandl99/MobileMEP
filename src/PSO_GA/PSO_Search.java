@@ -352,7 +352,7 @@ public class PSO_Search {
 			}
 			updatePBest();
 			updateGBest();
-			System.out.println("Fitness " + it + " th : " + fitnessGBest);
+//			System.out.println("Fitness " + it + " th : " + fitnessGBest);
 		}
 	}
 
