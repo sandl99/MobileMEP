@@ -91,18 +91,20 @@ public class SensorRunableGA extends PSO_Search {
 		}
 	}
 	public static void main(String args[]) {
-		Config.DS = Double.parseDouble(args[0]);
-		Config.MAX_LEN = (int) (200 / Config.DS);
-		Config.DT = Config.DS / Config.VI;
-		System.out.println("DS:=  " + Config.DS);
-		System.out.println("DT:=  " + Config.DT);
-		System.out.println("MAX_GEN:= " + Config.MAX_LEN);
+//		Config.DS = Double.parseDouble(args[0]);
+//		Config.MAX_LEN = (int) (200 / Config.DS);
+//		Config.DT = Config.DS / Config.VI;
+//		System.out.println("DS:=  " + Config.DS);
+//		System.out.println("DT:=  " + Config.DT);
+//		System.out.println("MAX_GEN:= " + Config.MAX_LEN);
+		Config.VS = 0.0;
 		
 		long start = System.currentTimeMillis();
 		SensorRunableGA sr = new SensorRunableGA();
-		sr.readData("./Data/RanPoint/25/test_15.txt");
+		sr.readData("./Data/RanPoint/100/test_13.txt");
 		sr.init();
 		sr.runPSO();
+		System.out.println(sr.fitnessGBest);
 		long end = System.currentTimeMillis();
 		System.out.println("Thoi gian chay: " + (end - start) / 1000);
 		sr.paintSensor(sr.gBest);
