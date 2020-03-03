@@ -109,8 +109,10 @@ public class PSO_Search {
 				s.move(Config.DT * Config.VS);
 			}
 		}
-//		System.out.println("end gene: " + i);
-		// Code for intruder travel to target
+		if (tmp_x < Config.W) {
+			System.out.println("Gene quá ngắn");
+		}
+		
 		
 		int len = (int) Math.abs(((Config.YN - tmp_y * 1.0) / Config.DS));
 		double sign = 1.0;
@@ -205,53 +207,9 @@ public class PSO_Search {
 
 		return res;
 	}
-	private static List<Integer> findListPiv(ArrayList<Double> indi_1, ArrayList<Double> indi_2, int len) {
-		List<Integer> res = new ArrayList<>();
-		double x1 = Config.X0;
-		double y1 = Config.Y0;
-		double x2 = Config.X0;
-		double y2 = Config.Y0;
-		
-		int piv_1 = 100;
-		/*
-		 * Set up
-		 */
-		for (int i = 0; i < piv_1; i++) {
-			x1 += Config.DS * Math.cos(indi_1.get(i));
-			y1 += Config.DS * Math.sin(indi_1.get(i));
-		}
-		for (int i = 0; i < piv_1 + len; i++) {
-			x2 += Config.DS * Math.cos(indi_2.get(i));
-			y2 += Config.DS * Math.sin(indi_2.get(i));
-		}
-		/*
-		 * Starting ...
-		 */
-		for (int i = piv_1; i < 700; i++) {
-			x1 += Config.DS * Math.cos(indi_1.get(i));
-			y1 += Config.DS * Math.sin(indi_1.get(i));
-			
-			x2 += Config.DS * Math.cos(indi_2.get(i + len));
-			y2 += Config.DS * Math.sin(indi_2.get(i + len));
-			
-			if (checkGeneMakeAble(new Point(x1, y1), new Point(x2, y2), len)) {
-				res.add(i);
-			}		
-		}
 	
-		return res;
-	}
 
-	private static Point findPoint(ArrayList<Double> indi, int len) {
-		double x = Config.X0;
-		double y = Config.Y0;
-
-		for (int i = 0; i <= len; i++) {
-			x += Config.DS * Math.cos(indi.get(i));
-			y += Config.DS * Math.sin(indi.get(i));
-		}
-		return new Point(x, y);
-	}
+	
 	
 	public static void Crossover(ArrayList<Double> tar, ArrayList<Double> indi_1, ArrayList<Double> indi_2) {
 		/*
@@ -285,7 +243,7 @@ public class PSO_Search {
 		double tmp;
 		tar.clear();
 		Random rd = new Random();
-		int pivot = rd.nextInt(750);
+		int pivot = rd.nextInt((int) Config.MAX_LEN * 3 / 4);
 		for (int i = 0; i < pivot; i++) {
 			tar.add(indi_1.get(i));
 		}
