@@ -61,11 +61,11 @@ public class GenData {
 				Point p[] = new Point[4];
 				int y;
 				do {
-					y = (int) (rd.nextGaussian() * Math.sqrt(400) + Config.Y0);
+					y = (int) (rd.nextGaussian() * Math.sqrt(100) + Config.Y0);
 				} while (y <= 0 || y >= 40);
 				p[0] = new Point((int) (Math.random() * Config.W), y);
 				do {
-					y = (int) (rd.nextGaussian() * Math.sqrt(400) + Config.Y0);
+					y = (int) (rd.nextGaussian() * Math.sqrt(100) + Config.Y0);
 				} while (y <= 0 || y >= 40);
 				p[2] = new Point((int) (Math.random() * Config.W), y);
 				

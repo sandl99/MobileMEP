@@ -14,7 +14,7 @@ public class Rect {
 		PrintWriter pw;
 		String[] str = { "Rect"};
 		for (String s : str) {
-			for (int nums = 1; nums <= 4; nums++) {
+			for (int nums = 2; nums <= 4; nums++) {
 //			n = nums * 25;
 				for (int i = 21; i <= 21; i++) {
 					MBGA mb = new MBGA();
