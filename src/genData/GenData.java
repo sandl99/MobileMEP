@@ -240,10 +240,10 @@ public class GenData {
 
 		for (int num = 1; num <= 4; num++) {
 			n = num * 25;
-			for (int i = 21; i <= 21; i++) {
+			for (int i = 25; i <= 30; i++) {
 				GenData genData = new GenData();
-				genData.genDataForRect(n, i);
-//				genData.genDataForRandomPoint(n, i);
+//				genData.genDataForRect(n, i);
+				genData.genDataForRandomPoint(n, i);
 //				genData.genDataForPathWay(n, i);
 			}
 		}
