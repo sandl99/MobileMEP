@@ -19,7 +19,7 @@ public class RanPoint {
 		for (String s : str) {
 			for (int nums = 1; nums <= 4; nums++) {
 				int n = 25 * nums;
-				for (int i = 25; i <= 30; i++) {
+				for (int i = 11; i <= 15; i++) {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
