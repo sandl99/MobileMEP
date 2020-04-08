@@ -23,7 +23,7 @@ public class RanPoint {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
-					double[] kq = new double[5];
+					double[] kq = new double[50];
 					double[] time = new double[kq.length];
 
 					for (int k = 0; k < kq.length; k++) {
