@@ -7,21 +7,24 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 import GA.MBGA;
+import Info.Config;
 
 public class RanPoint {
 	public static void main(String[] args) {
+		Config.VS = Double.parseDouble(args[0]);
+		System.out.println("VS:= " + Config.VS);
 		FileOutputStream fos;
 		PrintWriter pw;
 		String[] str = {"RanPoint"};
 		for (String s : str) {
 			for (int nums = 1; nums <= 4; nums++) {
 //			n = nums * 25;
-				for (int i = 21; i <= 21; i++) {
+				for (int i = 25; i <= 25; i++) {
 					MBGA mb = new MBGA();
 					mb.n = nums * 25;
 					mb.readData("./Data/" + s + "/" + mb.n + "/test_" + i + ".txt"); // sua
 
-					double[] kq = new double[10];
+					double[] kq = new double[2];
 					double[] time = new double[kq.length];
 
 					for (int k = 0; k < kq.length; k++) {

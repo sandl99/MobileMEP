@@ -18,11 +18,11 @@ public class Rect {
 		for (String s : str) {
 			for (int nums = 1; nums <= 4; nums++) {
 				int n = 25 * nums;
-				for (int i = 21; i <= 21; i++) {
+				for (int i = 11; i <= 15; i++) {
 
 					PSO_Search pso = new PSO_Search();
 					pso.readData("./Data/" + s + "/" + n + "/test_" + i + ".txt");
-					double[] kq = new double[5];
+					double[] kq = new double[50];
 					double[] time = new double[kq.length];
 
 					for (int k = 0; k < kq.length; k++) {
@@ -53,7 +53,10 @@ public class Rect {
 						pw.println("MEP: " + ketqua);
 						pw.println("DEV: " + pso.getStandar(kq, ketqua));
 						pw.println("TIM: " + thoigian);
-
+						System.out.println("--- Average Value ---");
+						System.out.println("MEP: " + ketqua);
+						System.out.println("DEV: " + pso.getStandar(kq, ketqua));
+						System.out.println("TIM: " + thoigian);
 						pw.close();
 
 						pw.close();

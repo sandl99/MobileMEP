@@ -11,8 +11,8 @@ import PSO_GA.PSO_Search;
 
 public class RanPoint {
 	public static void main(String[] args) {
-		Config.VS = Double.parseDouble(args[0]);
-		System.out.println("VS:= " + Config.VS);
+//		Config.VS = Double.parseDouble(args[0]);
+//		System.out.println("VS:= " + Config.VS);
 		FileOutputStream fos;
 		PrintWriter pw;
 		String[] str = {"RanPoint"};
@@ -54,7 +54,10 @@ public class RanPoint {
 						pw.println("MEP: " + ketqua);
 						pw.println("DEV: " + pso.getStandar(kq, ketqua));
 						pw.println("TIM: " + thoigian);
-
+						System.out.println("--- Average Value ---");
+						System.out.println("MEP: " + ketqua);
+						System.out.println("DEV: " + pso.getStandar(kq, ketqua));
+						System.out.println("TIM: " + thoigian);
 						pw.close();
 
 						pw.close();
