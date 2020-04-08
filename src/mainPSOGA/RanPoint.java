@@ -17,7 +17,7 @@ public class RanPoint {
 		PrintWriter pw;
 		String[] str = {"RanPoint"};
 		for (String s : str) {
-			for (int nums = 1; nums <= 4; nums++) {
+			for (int nums = 3; nums <= 4; nums++) {
 				int n = 25 * nums;
 				for (int i = 11; i <= 15; i++) {
 
